@@ -1,38 +1,142 @@
-// =============================================
-// CSE Motors - Main Script
-// =============================================
+// script.js - Client-side JavaScript for CSE Motors
 
-document.addEventListener('DOMContentLoaded', function() {
-  // Set active navigation link
-  const currentPage = window.location.pathname;
-  const navLinks = document.querySelectorAll('.nav-link');
-  
-  navLinks.forEach(link => {
-    const href = link.getAttribute('href');
-    if (href === currentPage || (currentPage === '/' && href === '/')) {
-      link.classList.add('active');
-    } else {
-      link.classList.remove('active');
+// Form validation for add classification
+function validateClassificationForm() {
+  const form = document.querySelector('form[action="/inv/add-classification"]');
+  if (!form) return;
+
+  const input = form.querySelector('#classification_name');
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  function validateInput() {
+    const value = input.value.trim();
+    const pattern = /^[A-Za-z0-9]+$/;
+
+    if (!value) {
+      input.setCustomValidity('Classification name is required');
+      return false;
+    }
+
+    if (!pattern.test(value)) {
+      input.setCustomValidity('No spaces or special characters allowed');
+      return false;
+    }
+
+    input.setCustomValidity('');
+    return true;
+  }
+
+  input.addEventListener('input', validateInput);
+  input.addEventListener('blur', validateInput);
+
+  form.addEventListener('submit', function(e) {
+    if (!validateInput()) {
+      e.preventDefault();
     }
   });
-  
-  // Smooth scroll to sections (if needed for future anchor links)
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Form validation for add inventory
+function validateInventoryForm() {
+  const form = document.querySelector('form[action="/inv/add-inventory"]');
+  if (!form) return;
+
+  const makeInput = form.querySelector('#inv_make');
+  const modelInput = form.querySelector('#inv_model');
+  const classificationSelect = form.querySelector('#classificationList');
+
+  function validateForm() {
+    let isValid = true;
+
+    if (!makeInput.value.trim()) {
+      makeInput.setCustomValidity('Make is required');
+      isValid = false;
+    } else {
+      makeInput.setCustomValidity('');
+    }
+
+    if (!modelInput.value.trim()) {
+      modelInput.setCustomValidity('Model is required');
+      isValid = false;
+    } else {
+      modelInput.setCustomValidity('');
+    }
+
+    if (!classificationSelect.value) {
+      classificationSelect.setCustomValidity('Classification is required');
+      isValid = false;
+    } else {
+      classificationSelect.setCustomValidity('');
+    }
+
+    return isValid;
+  }
+
+  [makeInput, modelInput, classificationSelect].forEach(input => {
+    input.addEventListener('input', validateForm);
+    input.addEventListener('change', validateForm);
+  });
+
+  form.addEventListener('submit', function(e) {
+    if (!validateForm()) {
+      e.preventDefault();
+    }
+  });
+}
+
+// Inventory table sorting functionality
+function initInventoryTableSort() {
+  const table = document.querySelector('.inventory-table');
+  if (!table) return;
+
+  const headers = table.querySelectorAll('th');
+  let currentSort = { column: null, direction: 'asc' };
+
+  headers.forEach((header, index) => {
+    header.style.cursor = 'pointer';
+    header.addEventListener('click', () => sortTable(index));
+  });
+
+  function sortTable(columnIndex) {
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+
+    // Toggle sort direction if same column
+    if (currentSort.column === columnIndex) {
+      currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+      currentSort.column = columnIndex;
+      currentSort.direction = 'asc';
+    }
+
+    rows.sort((a, b) => {
+      const aText = a.cells[columnIndex].textContent.trim().toLowerCase();
+      const bText = b.cells[columnIndex].textContent.trim().toLowerCase();
+
+      if (currentSort.direction === 'asc') {
+        return aText.localeCompare(bText);
+      } else {
+        return bText.localeCompare(aText);
       }
     });
-  });
-});
 
-// Image loading optimization
-window.addEventListener('load', function() {
-  const images = document.querySelectorAll('img');
-  images.forEach(img => {
-    // Add loaded class for any fade-in animations if needed
-    img.classList.add('loaded');
-  });
+    // Clear existing rows and append sorted ones
+    tbody.innerHTML = '';
+    rows.forEach(row => tbody.appendChild(row));
+
+    // Update header indicators
+    headers.forEach((h, i) => {
+      h.textContent = h.textContent.replace(' ↑', '').replace(' ↓', '');
+      if (i === columnIndex) {
+        h.textContent += currentSort.direction === 'asc' ? ' ↑' : ' ↓';
+      }
+    });
+  }
+}
+
+// Initialize all functionality when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  validateClassificationForm();
+  validateInventoryForm();
+  initInventoryTableSort();
 });
