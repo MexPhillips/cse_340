@@ -12,7 +12,9 @@
             "server": "localhost",
             "driver": "PostgreSQL",
             "name": "Render",
-            "connectString": "postgresql://cse340_3sn3_user:FrWst5fnlHK5TVAvLQPMNFYir8gxf0uq@dpg-d5uan9kr85hc73a2jt60-a.virginia-postgres.render.com/cse340_3sn3"
+            "database": "cse340_i5jq",
+            "username": "mexphillips",
+            "connectString": "postgresql://mexphillips:oDSPz9V7P4NyUTgV01gfTihAjy2Qyb0k@dpg-d62807m3jp1c73bkralg-a.virginia-postgres.render.com/cse340_i5jq"
         }
     ]
 }
