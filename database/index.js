@@ -8,31 +8,35 @@ require("dotenv").config()
  * Unit 3, Activities
  * *************** */
 let pool
-if (process.env.NODE_ENV == "development") {
+
+// If DATABASE_URL is not set, export a stub that throws a clear error
+if (!process.env.DATABASE_URL) {
+  console.warn('DATABASE_URL environment variable is not set. Database queries will fail until it is configured.')
+  module.exports = {
+    async query() {
+      throw new Error('DATABASE_URL environment variable is not set')
+    },
+  }
+} else {
+  // Use SSL in production environments if required by the host
+  const useSSL = process.env.NODE_ENV === 'production'
+
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false,
-    },
+    ...(useSSL && { ssl: { rejectUnauthorized: false } }),
   })
 
-  // Added for troubleshooting queries
-  // during development
+  // Helpful wrapper to log queries during development
   module.exports = {
     async query(text, params) {
       try {
         const res = await pool.query(text, params)
-        console.log("executed query", { text })
+        if (process.env.NODE_ENV !== 'production') console.log('executed query', { text })
         return res
       } catch (error) {
-        console.error("error in query", { text })
+        console.error('error in query', { text, error: error.message })
         throw error
       }
     },
   }
-} else {
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-  })
-  module.exports = pool
 }
