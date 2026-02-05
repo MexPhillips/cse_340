@@ -1,96 +1,27 @@
-<!-- Contact Hero Section -->
-<section class="hero contact-hero">
-  <div class="hero-content">
-    <h1 class="hero-title">Contact CSE Motors</h1>
-    <p class="hero-subtitle">We're Here to Help</p>
-    <p class="hero-description">Get in touch with our team to learn more about our vehicles, financing options, or to schedule a test drive. We're excited to help you find your perfect car.</p>
-  </div>
-</section>
-
-<!-- Contact Information Section -->
-<section class="contact-info-section">
-  <div class="content-container">
-    <h2>Get in Touch</h2>
-    <p class="section-intro">Multiple ways to connect with us - choose what works best for you</p>
-
-    <div class="contact-grid">
-      <div class="contact-card">
-        <h3>📞 Phone</h3>
-        <p class="contact-value"><a href="tel:+15551234567">(555) 123-4567</a></p>
-        <p class="contact-description">Mon-Fri: 9am-6pm EST<br>Sat: 10am-4pm EST</p>
-      </div>
-
-      <div class="contact-card">
-        <h3>✉️ Email</h3>
-        <p class="contact-value"><a href="mailto:info@csemotors.com">info@csemotors.com</a></p>
-        <p class="contact-description">We respond within 24 hours</p>
-      </div>
-
-      <div class="contact-card">
-        <h3>📍 Location</h3>
-        <p class="contact-value">123 Auto Drive</p>
-        <p class="contact-description">Motor City, ST 12345</p>
-      </div>
-
-      <div class="contact-card">
-        <h3>🕐 Hours</h3>
-        <p class="contact-description">
-          Mon-Fri: 9:00 AM - 6:00 PM<br>
-          Saturday: 10:00 AM - 4:00 PM<br>
-          <strong>Sunday: Closed</strong>
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Contact Form Section -->
-<section class="contact-form-section">
-  <div class="content-container">
-    <h2>Send us a Message</h2>
-    <p class="form-intro">Have a question about a specific vehicle or ready to schedule a visit? Fill out the form below and we'll get back to you shortly.</p>
-
-    <form method="POST" action="/contact" class="contact-form">
-      <div class="form-row">
-        <div class="form-group">
-          <label for="name">Full Name *</label>
-          <input type="text" id="name" name="name" required placeholder="John Doe">
-        </div>
-
-        <div class="form-group">
-          <label for="email">Email Address *</label>
-          <input type="email" id="email" name="email" required placeholder="john@example.com">
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567">
-        </div>
-
-        <div class="form-group">
-          <label for="subject">Subject *</label>
-          <input type="text" id="subject" name="subject" required placeholder="e.g., Inquiry about Camaro">
-        </div>
-      </div>
-
-      <div class="form-group full-width">
-        <label for="message">Message *</label>
-        <textarea id="message" name="message" rows="6" required placeholder="Tell us how we can help you find your perfect vehicle..."></textarea>
-      </div>
-
-      <button type="submit" class="cta-button primary">Send Message</button>
-    </form>
-  </div>
-</section>
-
-<!-- CTA Section -->
-<section class="cta-section">
-  <h2>Ready to Visit Us?</h2>
-  <p>Stop by our showroom to see our vehicles and meet our team in person</p>
-  <div class="cta-buttons">
-    <a href="/inventory" class="cta-button primary">Browse Our Inventory</a>
-    <a href="/" class="cta-button secondary">Return to Home</a>
-  </div>
-</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+  <title>Contact | CSE Motors</title>
+</head>
+<body>
+  <%- include('partials/header') %>
+  <%- include('partials/nav') %>
+  <main>
+    <section>
+      <h1>Contact Us</h1>
+      <p>Have questions? Reach out to our team and we’ll get back to you as soon as possible.</p>
+      <form>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+        <button type="submit">Send</button>
+      </form>
+    </section>
+  </main>
+  <%- include('partials/footer') %>
+</body>
+</html>

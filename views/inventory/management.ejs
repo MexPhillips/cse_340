@@ -1,0 +1,35 @@
+<h1>Inventory Management</h1>
+
+<% if (flashMessage) { %>
+  <p><%= flashMessage %></p>
+<% } %>
+
+
+<ul>
+  <li><a href="/inv/add-classification">Add New Classification</a></li>
+  <li><a href="/inv/add-inventory">Add New Inventory Item</a></li>
+</ul>
+
+<h2>Current Inventory</h2>
+<% if (inventory && inventory.length) { %>
+  <table class="inventory-table">
+    <thead>
+      <tr>
+        <th>Make</th>
+        <th>Model</th>
+        <th>Classification</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% inventory.forEach(item => { %>
+        <tr>
+          <td><%= item.inv_make %></td>
+          <td><%= item.inv_model %></td>
+          <td><%= item.classification_id %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } else { %>
+  <p>No inventory items found.</p>
+<% } %>

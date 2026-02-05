@@ -1,133 +1,65 @@
-<!-- Hero Section -->
-<section class="hero">
-  <div class="hero-content">
-    <h1 class="hero-title">Welcome to CSE Motors</h1>
-    <p class="hero-subtitle">Your trusted partner for quality vehicles</p>
-    <p class="hero-description">Discover our extensive selection of premium vehicles with exceptional service and competitive pricing.</p>
-    <a href="/inventory" class="cta-button">Browse Inventory</a>
-  </div>
-  <div class="hero-image">
-    <img src="/images/site/own_today.png" alt="Showroom vehicle with showroom backdrop" class="hero-img">
-  </div>
+<%# Unit 1, Assignment 1 %>
+<h1>Welcome to CSE Motors!</h1>
+<%# Unit 4, Sessions & Messages activity %>
+
+
+<section id="hero">
+
+  <ul>
+    <li>
+      <h2>DMC Delorean</h2>
+    </li>
+    <li>3 Cup holders</li>
+    <li>Superman doors</li>
+    <li>Fuzzy dice!</li>
+    <li><button id="actionbtn">Own Today</button></li>
+  </ul>
+
 </section>
+<div class="flex-content">
+  <section id="review">
+    <h2>DMC Delorean Reviews</h2>
+    <ul>
+      <li>"So fast it's almost like traveling in time." (4/5)</li>
+      <li>"Coolest ride on the road." (4/5)</li>
+      <li>"I'm feeling McFly!" (5/5)</li>
+      <li>"The most futuristic ride of our day." (4.5/5)</li>
+      <li>"80's livin and I love it!" (5/5)</li>
+    </ul>
+  </section>
+  <section id="add-ons">
+    <h2>Delorean Upgrades</h2>
+    <div class="flex">
+      <a href="#" title="flux-capacitor">
+        <figure>
 
-<!-- Featured Vehicles Section -->
-<section class="featured-vehicles">
-  <div class="section-header">
-    <h2>Featured Vehicles</h2>
-    <p class="section-description">Check out our handpicked selection of premium automobiles</p>
-  </div>
+          <div class="add-col"><img src="/images/upgrades/flux-cap.png" alt="Flux-Capacitor"></div>
+          <figcaption>Flux Capacitor</figcaption>
+        </figure>
+      </a>
+      <a href="#" title="flame decals">
+        <figure>
+          <div class="add-col"><img src="/images/upgrades/flame.jpg" alt="flame decal"></div>
+          <figcaption>Flame Decals</figcaption>
+        </figure>
+      </a>
 
-  <div class="vehicles-grid">
-    <!-- Vehicle 1 -->
-    <article class="vehicle-card">
-      <div class="vehicle-image-wrapper">
-        <img src="/images/vehicles/adventador.jpg" alt="Lamborghini Aventador - performance sports car" class="vehicle-image" onerror="this.onerror=null;this.src='/images/vehicles/no-image.png';">
-        <span class="vehicle-badge">Featured</span>
-      </div>
-      <div class="vehicle-info">
-        <h3 class="vehicle-name">Lamborghini Aventador</h3>
-        <p class="vehicle-details">
-          <span class="detail">Gasoline • Sports</span>
-          <span class="detail">5,000 miles</span>
-        </p>
-        <p class="vehicle-description">V12 performance sports car with striking styling and blistering acceleration.</p>
-        <p class="vehicle-price">$399,000</p>
-        <a href="/inventory" class="vehicle-link">View Details</a>
-      </div>
-    </article>
+    </div>
+    <div class="flex">
+      <a href="#" title="bumper stickers">
+        <figure>
+          <div class="add-col"><img src="/images/upgrades/bumper_sticker.jpg" alt="Bumper Stickers"> </div>
+          <figcaption>Bumper Stickers</figcaption>
+        </figure>
+      </a>
+      <a href="#" title="hub caps">
+        <figure>
+          <div class="add-col"><img src="/images/upgrades/hub-cap.jpg" alt="Hub Caps"></div>
+          <figcaption>Hub Caps</figcaption>
+        </figure>
+      </a>
 
-    <!-- Vehicle 2 -->
-    <article class="vehicle-card">
-      <div class="vehicle-image-wrapper">
-        <img src="/images/vehicles/camaro.jpg" alt="Chevrolet Camaro - sporty coupe" class="vehicle-image" onerror="this.onerror=null;this.src='/images/vehicles/no-image.png';">
-        <span class="vehicle-badge">Premium</span>
-      </div>
-      <div class="vehicle-info">
-        <h3 class="vehicle-name">Chevrolet Camaro</h3>
-        <p class="vehicle-details">
-          <span class="detail">Gasoline • Coupe</span>
-          <span class="detail">12,000 miles</span>
-        </p>
-        <p class="vehicle-description">Classic American muscle car with strong acceleration and bold styling.</p>
-        <p class="vehicle-price">$39,995</p>
-        <a href="/inventory" class="vehicle-link">View Details</a>
-      </div>
-    </article>
+    </div>
+  </section>
 
-    <!-- Vehicle 3 -->
-    <article class="vehicle-card">
-      <div class="vehicle-image-wrapper">
-        <img src="/images/vehicles/escalade.jpg" alt="Cadillac Escalade - full-size luxury SUV" class="vehicle-image" onerror="this.onerror=null;this.src='/images/vehicles/no-image.png';">
-        <span class="vehicle-badge">Value</span>
-      </div>
-      <div class="vehicle-info">
-        <h3 class="vehicle-name">Cadillac Escalade</h3>
-        <p class="vehicle-details">
-          <span class="detail">Gasoline • SUV</span>
-          <span class="detail">30,000 miles</span>
-        </p>
-        <p class="vehicle-description">Full-size luxury SUV with spacious seating and premium amenities.</p>
-        <p class="vehicle-price">$72,500</p>
-        <a href="/inventory" class="vehicle-link">View Details</a>
-      </div>
-    </article>
-
-    <!-- Vehicle 4 -->
-    <article class="vehicle-card">
-      <div class="vehicle-image-wrapper">
-        <img src="/images/vehicles/wrangler.jpg" alt="Jeep Wrangler - off-road capable SUV" class="vehicle-image" onerror="this.onerror=null;this.src='/images/vehicles/no-image.png';">
-        <span class="vehicle-badge">Power</span>
-      </div>
-      <div class="vehicle-info">
-        <h3 class="vehicle-name">Jeep Wrangler</h3>
-        <p class="vehicle-details">
-          <span class="detail">Gasoline • SUV</span>
-          <span class="detail">20,000 miles</span>
-        </p>
-        <p class="vehicle-description">Rugged off-road capable SUV built for adventure and durability.</p>
-        <p class="vehicle-price">$34,995</p>
-        <a href="/inventory" class="vehicle-link">View Details</a>
-      </div>
-    </article>
-  </div>
-</section>
-
-<!-- Why Choose Us Section -->
-<section class="why-choose-us">
-  <div class="section-header">
-    <h2>Why Choose CSE Motors?</h2>
-  </div>
-
-  <div class="benefits-grid">
-    <article class="benefit-card">
-      <h3>Expert Service</h3>
-      <p>Our knowledgeable team is dedicated to helping you find the perfect vehicle.</p>
-    </article>
-
-    <article class="benefit-card">
-      <h3>Competitive Pricing</h3>
-      <p>We offer the best value on quality vehicles in the region.</p>
-    </article>
-
-    <article class="benefit-card">
-      <h3>Comprehensive Warranty</h3>
-      <p>All our vehicles come with coverage and support for your peace of mind.</p>
-    </article>
-
-    <article class="benefit-card">
-      <h3>Financing Available</h3>
-      <p>Flexible financing options to make your purchase affordable.</p>
-    </article>
-  </div>
-</section>
-
-<!-- Call to Action Section -->
-<section class="cta-section">
-  <h2>Ready to Find Your Perfect Vehicle?</h2>
-  <p>Contact us today or browse our complete inventory online.</p>
-  <div class="cta-buttons">
-    <a href="/inventory" class="cta-button primary">View All Vehicles</a>
-    <a href="/contact" class="cta-button secondary">Contact Us</a>
-  </div>
-</section>
+</div>

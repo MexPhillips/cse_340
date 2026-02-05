@@ -1,0 +1,22 @@
+<h1>Add Classification</h1>
+
+<% if (errors) { errors.forEach(e => { %>
+  <p style="color:red"><%= e.msg %></p>
+<% }) } %>
+
+<form action="/inv/add-classification" method="post">
+  <label for="classification_name">Classification Name:</label>
+  <input type="text" id="classification_name" name="classification_name"
+         required pattern="^[A-Za-z0-9]+$">
+  <button type="submit">Add</button>
+</form>
+<%# Unit 3, Build Classification View activity %>
+<% if (title) { %>
+<h1><%= title %> </h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<%# messages() %>
+
+<%- grid %>

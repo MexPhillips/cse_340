@@ -1,0 +1,16 @@
+<h1>Add Inventory Item</h1>
+<% if (errors) { errors.forEach(e => { %>
+  <p style="color:red"><%= e.msg %></p>
+<% }) } %>
+<form action="/inv/add-inventory" method="post">
+  <label for="inv_make">Make:</label>
+  <input type="text" id="inv_make" name="inv_make" value="<%= inv_make || '' %>" required>
+
+  <label for="inv_model">Model:</label>
+  <input type="text" id="inv_model" name="inv_model" value="<%= inv_model || '' %>" required>
+
+  <label for="classification_id">Classification:</label>
+  <%- classificationSelect %>
+
+  <button type="submit">Add Vehicle</button>
+</form>
