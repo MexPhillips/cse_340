@@ -1,0 +1,113 @@
+<h1><%= title %></h1>
+
+<div class="inventory-controls">
+  <div class="filter-section">
+    <h2>Filter by Category</h2>
+    <div class="filter-buttons">
+      <a href="/inv/" class="filter-btn <%= !currentFilter ? 'active' : '' %>">All Vehicles</a>
+      <% if (classifications && classifications.length) { %>
+        <% classifications.forEach(classification => { %>
+          <a href="/inv/type/<%= inventory.find(item => item.classification_name === classification).classification_id %>" 
+             class="filter-btn <%= currentFilter === classification ? 'active' : '' %>">
+            <%= classification %>
+          </a>
+        <% }) %>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="search-section">
+    <input type="search" 
+           id="inventorySearch" 
+           placeholder="Search by year, make, model, or description..." 
+           class="search-input">
+  </div>
+</div>
+
+<div class="inventory-display">
+  <% if (inventory && inventory.length) { %>
+    <div id="vehicleGrid" class="vehicle-grid">
+      <% inventory.forEach(vehicle => { %>
+        <div class="vehicle-card" data-search="<%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %> <%= vehicle.classification_name %>">
+          <div class="vehicle-image-wrapper">
+            <img 
+              src="/images/vehicles/<%= vehicle.inv_thumbnail ? vehicle.inv_thumbnail.split('/').pop() : 'no-image-tn.png' %>" 
+              alt="<%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %>"
+              class="vehicle-thumbnail"
+              loading="lazy">
+            <span class="vehicle-badge"><%= vehicle.classification_name %></span>
+          </div>
+          
+          <div class="vehicle-info">
+            <h3 class="vehicle-title">
+              <a href="/inv/detail/<%= vehicle.inv_id %>" title="View details for <%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+                <%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %>
+              </a>
+            </h3>
+            
+            <p class="vehicle-price">$<%= new Intl.NumberFormat("en-US").format(vehicle.inv_price) %></p>
+            
+            <div class="vehicle-details">
+              <div class="detail-item">
+                <span class="label">Mileage:</span>
+                <span class="value"><%= new Intl.NumberFormat("en-US").format(vehicle.inv_miles) %> miles</span>
+              </div>
+              <div class="detail-item">
+                <span class="label">Color:</span>
+                <span class="value"><%= vehicle.inv_color || 'Not specified' %></span>
+              </div>
+              <div class="detail-item">
+                <span class="label">VIN:</span>
+                <span class="value"><%= vehicle.inv_vin || 'N/A' %></span>
+              </div>
+            </div>
+            
+            <p class="vehicle-description"><%= vehicle.inv_description.substring(0, 120) %>...</p>
+            
+            <a href="/inv/detail/<%= vehicle.inv_id %>" class="view-details-btn">View Details</a>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+    
+    <div id="noResults" class="notice" style="display: none;">
+      <p>Sorry, no vehicles match your search criteria.</p>
+    </div>
+  <% } else { %>
+    <p class="notice">Sorry, no inventory items available at this time.</p>
+  <% } %>
+</div>
+
+<script>
+  // Client-side search and filter functionality
+  const searchInput = document.getElementById('inventorySearch');
+  const vehicleCards = document.querySelectorAll('.vehicle-card');
+  const vehicleGrid = document.getElementById('vehicleGrid');
+  const noResults = document.getElementById('noResults');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      vehicleCards.forEach(card => {
+        const searchData = card.getAttribute('data-search').toLowerCase();
+        if (searchData.includes(searchTerm)) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Show/hide no results message
+      if (visibleCount === 0) {
+        vehicleGrid.style.display = 'none';
+        noResults.style.display = 'block';
+      } else {
+        vehicleGrid.style.display = 'grid';
+        noResults.style.display = 'none';
+      }
+    });
+  }
+</script>

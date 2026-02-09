@@ -38,13 +38,45 @@ invCont.buildDetail = async function (req, res, next) {
   })
 }
 
+/* ***************************
+ *  Build all inventory view
+ * ************************** */
+invCont.buildInventory = async function (req, res, next) {
+  let data = await invModel.getAllInventory()
+  let nav = await utilities.getNav()
+  
+  // Group inventory by classification for filters
+  const classifications = [...new Set(data.map(item => item.classification_name))]
+  
+  res.render("./inventory/inventory", {
+    title: "Vehicle Inventory",
+    nav,
+    inventory: data,
+    classifications,
+    currentFilter: null
+  })
+}
+
+/* ***************************
+ *  Build inventory management view
+ * ************************** */
+invCont.buildManagement = async function (req, res, next) {
+  let inventory = await invModel.getAllInventory()
+  let nav = await utilities.getNav()
+  
+  res.render("./inventory/management", {
+    title: "Inventory Management",
+    nav,
+    inventory,
+    flashMessage: req.query.message || null,
+    messageType: req.query.type || null
+  })
+}
+
 /* ****************************************
- *  Process intentional error
+ *  Error Route
  *  Assignment 3, Task 3
- * ************************************ */
+ **************************************** */
 invCont.throwError = async function (req, res) {
   throw new Error("I made this error on purpose")
 }
-
-
-module.exports = invCont

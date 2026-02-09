@@ -1,35 +1,59 @@
 <h1>Inventory Management</h1>
 
 <% if (flashMessage) { %>
-  <p><%= flashMessage %></p>
+  <div class="message <%= messageType || 'info' %>">
+    <%= flashMessage %>
+  </div>
 <% } %>
 
-
-<ul>
-  <li><a href="/inv/add-classification">Add New Classification</a></li>
-  <li><a href="/inv/add-inventory">Add New Inventory Item</a></li>
-</ul>
+<div class="management-actions">
+  <div class="action-buttons">
+    <a href="/inv/add-classification" class="btn btn-primary">+ Add New Classification</a>
+    <a href="/inv/add-inventory" class="btn btn-primary">+ Add New Vehicle</a>
+    <a href="/inv/" class="btn btn-secondary">View Full Inventory</a>
+  </div>
+</div>
 
 <h2>Current Inventory</h2>
+
 <% if (inventory && inventory.length) { %>
-  <table class="inventory-table">
-    <thead>
-      <tr>
-        <th>Make</th>
-        <th>Model</th>
-        <th>Classification</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% inventory.forEach(item => { %>
+  <div class="table-responsive">
+    <table class="management-table">
+      <thead>
         <tr>
-          <td><%= item.inv_make %></td>
-          <td><%= item.inv_model %></td>
-          <td><%= item.classification_id %></td>
+          <th>Year</th>
+          <th>Make</th>
+          <th>Model</th>
+          <th>Classification</th>
+          <th>Price</th>
+          <th>Miles</th>
+          <th>Actions</th>
         </tr>
-      <% }) %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% inventory.forEach(item => { %>
+          <tr>
+            <td><%= item.inv_year %></td>
+            <td><%= item.inv_make %></td>
+            <td><%= item.inv_model %></td>
+            <td><span class="badge"><%= item.classification_name %></span></td>
+            <td>$<%= new Intl.NumberFormat("en-US").format(item.inv_price) %></td>
+            <td><%= new Intl.NumberFormat("en-US").format(item.inv_miles) %></td>
+            <td>
+              <div class="action-links">
+                <a href="/inv/detail/<%= item.inv_id %>" class="link-btn view" title="View details">View</a>
+                <a href="/inv/edit/<%= item.inv_id %>" class="link-btn edit" title="Edit vehicle">Edit</a>
+                <a href="/inv/delete/<%= item.inv_id %>" class="link-btn delete" title="Delete vehicle" onclick="return confirm('Are you sure you want to delete this vehicle?');">Delete</a>
+              </div>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  
+  <p class="inventory-count">Total vehicles: <%= inventory.length %></p>
 <% } else { %>
-  <p>No inventory items found.</p>
+  <p class="notice">No inventory items found. <a href="/inv/add-inventory">Add your first vehicle</a></p>
 <% } %>
+

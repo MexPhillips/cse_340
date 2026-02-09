@@ -622,3 +622,431 @@ input[name$='Thumbnail'] {
     object-fit: contain;
   }
 }
+
+/* ===========================
+ * Inventory Page Styles
+ * =========================== */
+
+.inventory-controls {
+  background-color: #f5f5f5;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.filter-section h2,
+.search-section h2 {
+  font-size: 1.1em;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.filter-btn {
+  padding: 0.6rem 1.2rem;
+  background-color: #fff;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--primary-text);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.filter-btn:hover {
+  border-color: var(--main-accent);
+  color: var(--main-accent);
+}
+
+.filter-btn.active {
+  background-color: var(--main-accent);
+  color: white;
+  border-color: var(--main-accent);
+}
+
+.search-input {
+  width: 100%;
+  max-width: 500px;
+  padding: 0.8rem;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--main-accent);
+  box-shadow: 0 0 0 3px rgba(1, 176, 211, 0.1);
+}
+
+.inventory-display {
+  max-width: 100%;
+}
+
+.vehicle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.vehicle-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.vehicle-card:hover {
+  box-shadow: 0 4px 16px rgba(1, 176, 211, 0.2);
+  transform: translateY(-4px);
+}
+
+.vehicle-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background-color: #f9f9f9;
+}
+
+.vehicle-thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.vehicle-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: var(--main-accent);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.vehicle-info {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.vehicle-title {
+  margin: 0 0 0.8rem 0;
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.vehicle-title a {
+  color: var(--primary-text);
+  text-decoration: none;
+}
+
+.vehicle-title a:hover {
+  color: var(--main-accent);
+}
+
+.vehicle-price {
+  font-size: 1.4em;
+  font-weight: bold;
+  color: var(--main-accent);
+  margin: 0 0 1rem 0;
+}
+
+.vehicle-details {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  font-size: 0.9em;
+}
+
+.detail-item .label {
+  font-weight: 600;
+  color: #666;
+}
+
+.detail-item .value {
+  text-align: right;
+  color: var(--primary-text);
+}
+
+.vehicle-description {
+  color: #666;
+  font-size: 0.95em;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.view-details-btn {
+  background-color: var(--main-accent);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  text-align: center;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.view-details-btn:hover {
+  background-color: #0099b8;
+}
+
+#noResults {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* ===========================
+ * Management Table Styles
+ * =========================== */
+
+.management-actions {
+  margin-bottom: 2rem;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background-color: var(--main-accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0099b8;
+}
+
+.btn-secondary {
+  background-color: #f0f0f0;
+  color: var(--primary-text);
+  border: 2px solid #ddd;
+}
+
+.btn-secondary:hover {
+  background-color: #e0e0e0;
+  border-color: var(--main-accent);
+}
+
+.table-responsive {
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.management-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.management-table thead {
+  background-color: var(--main-accent);
+  color: white;
+}
+
+.management-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 3px solid var(--main-accent);
+}
+
+.management-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.management-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.badge {
+  display: inline-block;
+  background-color: #e8f4f8;
+  color: var(--main-accent);
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-weight: 600;
+}
+
+.action-links {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.link-btn {
+  padding: 0.5rem 0.9rem;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.link-btn.view {
+  background-color: #e8f4f8;
+  color: var(--main-accent);
+}
+
+.link-btn.view:hover {
+  background-color: var(--main-accent);
+  color: white;
+}
+
+.link-btn.edit {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.link-btn.edit:hover {
+  background-color: #ffc107;
+  color: white;
+}
+
+.link-btn.delete {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.link-btn.delete:hover {
+  background-color: #f5c6cb;
+  color: white;
+}
+
+.inventory-count {
+  margin-top: 1.5rem;
+  font-size: 1.05em;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Responsive Design for Inventory Pages */
+@media (max-width: 768px) {
+  .inventory-controls {
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+
+  .filter-buttons {
+    gap: 0.5rem;
+  }
+
+  .filter-btn {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.9em;
+  }
+
+  .vehicle-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .vehicle-image-wrapper {
+    height: 180px;
+  }
+
+  .vehicle-info {
+    padding: 1rem;
+  }
+
+  .management-table {
+    font-size: 0.95em;
+  }
+
+  .management-table th,
+  .management-table td {
+    padding: 0.75rem;
+  }
+
+  .action-links {
+    flex-direction: column;
+  }
+
+  .link-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .vehicle-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .inventory-controls {
+    padding: 1rem;
+  }
+
+  .filter-buttons {
+    flex-direction: column;
+  }
+
+  .filter-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .management-table {
+    font-size: 0.85em;
+  }
+}
