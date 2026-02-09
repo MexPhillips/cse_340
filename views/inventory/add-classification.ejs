@@ -1,22 +1,55 @@
-<h1>Add Classification</h1>
+<h1><%= title %></h1>
 
-<% if (errors) { errors.forEach(e => { %>
-  <p style="color:red"><%= e.msg %></p>
-<% }) } %>
+<% if (errors && errors.length) { %>
+  <div class="alert alert-danger" role="alert">
+    <h2>Please Fix the Following Errors:</h2>
+    <ul>
+      <% errors.forEach(err => { %>
+        <li><%= err %></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
 
-<form action="/inv/add-classification" method="post">
-  <label for="classification_name">Classification Name:</label>
-  <input type="text" id="classification_name" name="classification_name"
-         required pattern="^[A-Za-z0-9]+$">
-  <button type="submit">Add</button>
+<form action="/inv/add-classification" method="post" id="classificationForm">
+  <div class="form-group">
+    <label for="classification_name">Classification Name *</label>
+    <input 
+      type="text" 
+      id="classification_name" 
+      name="classification_name"
+      value="<%= typeof classification_name !== 'undefined' ? classification_name : '' %>"
+      required
+      pattern="^[A-Za-z0-9\s]+$"
+      title="Classification name can only contain letters, numbers, and spaces"
+      maxlength="100"
+      placeholder="e.g., SUV, Truck, Sedan">
+  </div>
+  <button type="submit" class="btn btn-primary">Add Classification</button>
+  <a href="/inv/management" class="btn btn-secondary">Cancel</a>
 </form>
-<%# Unit 3, Build Classification View activity %>
-<% if (title) { %>
-<h1><%= title %> </h1>
-<% } else {
-  res.redirect('/')
-} %>
 
-<%# messages() %>
-
-<%- grid %>
+<script>
+  // Client-side validation
+  document.getElementById('classificationForm').addEventListener('submit', function(e) {
+    const classificationName = document.getElementById('classification_name').value.trim();
+    
+    if (!classificationName) {
+      e.preventDefault();
+      alert('Classification name is required');
+      return false;
+    }
+    
+    if (!/^[A-Za-z0-9\s]+$/.test(classificationName)) {
+      e.preventDefault();
+      alert('Classification name can only contain letters, numbers, and spaces');
+      return false;
+    }
+    
+    if (classificationName.length > 100) {
+      e.preventDefault();
+      alert('Classification name must be 100 characters or less');
+      return false;
+    }
+  });
+</script>

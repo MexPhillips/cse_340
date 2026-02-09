@@ -1,18 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <%- include('partials/head') %>
-  <title>About | CSE Motors</title>
-</head>
-<body>
-  <%- include('partials/header') %>
-  <%- include('partials/nav') %>
-  <main>
-    <section>
-      <h1>About CSE Motors</h1>
-      <p>We are dedicated to helping you find the perfect vehicle. Our team is passionate about cars and customer service.</p>
-    </section>
-  </main>
-  <%- include('partials/footer') %>
-</body>
-</html>
+<section class="about-section">
+  <h1><%= title %></h1>
+  
+  <div class="about-content">
+    <article>
+      <h2>Who We Are</h2>
+      <p>Welcome to CSE Motors, your premier destination for quality vehicles and exceptional customer service. Since our founding in 2026, we've been committed to helping customers find the perfect vehicle to match their lifestyle and needs.</p>
+    </article>
+
+    <article>
+      <h2>Our Mission</h2>
+      <p>Our mission is simple: to provide our customers with a diverse selection of high-quality vehicles, transparent pricing, and expert guidance to make the vehicle buying experience enjoyable and stress-free.</p>
+    </article>
+
+    <article>
+      <h2>Why Choose Us?</h2>
+      <ul style="line-height: 1.8; font-size: 1.05em;">
+        <li><strong>Wide Selection:</strong> From SUVs to sports cars, we have a vehicle for everyone.</li>
+        <li><strong>Expert Team:</strong> Our knowledgeable staff is passionate about cars and committed to your satisfaction.</li>
+        <li><strong>Quality Assurance:</strong> Every vehicle has been inspected by ASE-certified technicians.</li>
+        <li><strong>Competitive Pricing:</strong> We offer transparent pricing with no hidden fees.</li>
+        <li><strong>Customer Support:</strong> We're here to help before, during, and after your purchase.</li>
+      </ul>
+    </article>
+
+    <article>
+      <h2>Our Values</h2>
+      <p>Integrity, quality, and customer satisfaction are at the heart of everything we do. We believe in building long-term relationships with our customers based on trust and exceptional service.</p>
+    </article>
+  </div>
+</section>
+
+<style>
+  .about-section {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .about-content article {
+    margin-bottom: 2.5em;
+  }
+  .about-content h2 {
+    color: #01b0d3;
+    font-size: 1.5em;
+    margin-top: 1.5em;
+    margin-bottom: 0.8em;
+  }
+  .about-content p {
+    line-height: 1.7;
+    color: #333;
+    font-size: 1.05em;
+  }
+</style>

@@ -7,6 +7,7 @@
  *************************/
 const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
+const session = require("express-session")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
@@ -16,6 +17,22 @@ const baseController = require("./controllers/baseController")
 const errorController = require("./controllers/errorController")
 
 /* ***********************
+ * Body Parser Middleware
+ *************************/
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
+
+/* ***********************
+ * Session Middleware
+ *************************/
+app.use(session({
+  secret: process.env.SESSION_SECRET || "your-secret-key",
+  resave: false,
+  saveUninitialized: true,
+  name: "id"
+}))
+
+/* ***********************
  * View Engine and Templates
  *************************/
 app.set("view engine", "ejs")
@@ -23,12 +40,14 @@ app.use(expressLayouts)
 app.set("layout", "layouts/layout") // layout file under views/layouts/layout.ejs
 
 /* ***********************
- * Middleware to add nav to all views
+ * Middleware to add nav and messages to all views
  *************************/
 const utilities = require("./utilities")
 app.use(async (req, res, next) => {
   try {
     res.locals.nav = await utilities.getNav()
+    res.locals.messages = req.session.messages || []
+    req.session.messages = []
     next()
   } catch (error) {
     next(error)

@@ -1,3 +1,8 @@
 <nav>
-    <%- nav %>
+    <ul class="main-nav">
+        <li><a href="/" class="nav-link<%= (typeof page !== 'undefined' && page === 'home') ? ' active' : '' %>" style="white-space: nowrap;">Home</a></li>
+        <li><a href="/inv/" class="nav-link<%= (typeof page !== 'undefined' && page === 'inventory') ? ' active' : '' %>" style="white-space: nowrap;">Inventory</a></li>
+        <li><a href="/about" class="nav-link<%= (typeof page !== 'undefined' && page === 'about') ? ' active' : '' %>" style="white-space: nowrap;">About Us</a></li>
+        <li><a href="/contact" class="nav-link<%= (typeof page !== 'undefined' && page === 'contact') ? ' active' : '' %>" style="white-space: nowrap;">Contact Us</a></li>
+    </ul>
 </nav>

@@ -27,4 +27,15 @@ router.get('/sport', (req, res, next) => buildClassificationPage('Sport', req, r
 router.get('/suv', (req, res, next) => buildClassificationPage('SUV', req, res, next))
 router.get('/truck', (req, res, next) => buildClassificationPage('Truck', req, res, next))
 
+
+// About Us page
+router.get('/about', (req, res) => {
+  res.render('about', { title: 'About Us', page: 'about' })
+})
+
+// Contact Us page
+router.get('/contact', (req, res) => {
+  res.render('contact', { title: 'Contact Us', page: 'contact' })
+})
+
 module.exports = router

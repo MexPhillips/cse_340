@@ -2,7 +2,7 @@ const utilities = require("../utilities")
 const baseController = {}
 
 baseController.buildHome = async function(req, res){
-  res.render("index", {title: "Home"})
+  res.render("index", {title: "Home", page: "home"})
 }
 
 /* *********************************

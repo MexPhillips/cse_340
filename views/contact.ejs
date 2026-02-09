@@ -1,27 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <%- include('partials/head') %>
-  <title>Contact | CSE Motors</title>
-</head>
-<body>
-  <%- include('partials/header') %>
-  <%- include('partials/nav') %>
-  <main>
-    <section>
-      <h1>Contact Us</h1>
-      <p>Have questions? Reach out to our team and we’ll get back to you as soon as possible.</p>
-      <form>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" required></textarea>
-        <button type="submit">Send</button>
+﻿<section class="contact-section">
+  <h1><%= title %></h1>
+  
+  <div class="contact-content">
+    <article class="contact-info">
+      <h2>Get in Touch</h2>
+      <p>Have questions about our inventory or need assistance? We'd love to hear from you! Our team is ready to help you find the perfect vehicle.</p>
+      
+      <div class="info-card">
+        <h3>Contact Information</h3>
+        <ul style="list-style: none; padding: 0;">
+          <li style="margin-bottom: 1rem;"><strong>Email:</strong> <a href="mailto:support@csemotors.com" style="color: #01b0d3; text-decoration: none;">support@csemotors.com</a></li>
+          <li style="margin-bottom: 1rem;"><strong>Phone:</strong> <a href="tel:+15551234567" style="color: #01b0d3; text-decoration: none;">(555) 123-4567</a></li>
+          <li style="margin-bottom: 1rem;"><strong>Address:</strong> 1234 Main Street, Anytown, USA 12345</li>
+          <li><strong>Hours:</strong> Monday - Friday: 9:00 AM - 6:00 PM | Saturday: 10:00 AM - 4:00 PM | Sunday: Closed</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="contact-form-wrapper">
+      <h2>Send us a Message</h2>
+      <form class="contact-form">
+        <div class="form-group">
+          <label for="contact_name">Full Name *</label>
+          <input type="text" id="contact_name" name="name" required maxlength="100">
+        </div>
+
+        <div class="form-group">
+          <label for="contact_email">Email Address *</label>
+          <input type="email" id="contact_email" name="email" required maxlength="100">
+        </div>
+
+        <div class="form-group">
+          <label for="contact_phone">Phone Number</label>
+          <input type="tel" id="contact_phone" name="phone" maxlength="20">
+        </div>
+
+        <div class="form-group">
+          <label for="contact_subject">Subject *</label>
+          <input type="text" id="contact_subject" name="subject" required maxlength="100" placeholder="Inquiry about vehicles, general question, etc.">
+        </div>
+
+        <div class="form-group">
+          <label for="contact_message">Message *</label>
+          <textarea id="contact_message" name="message" required maxlength="1000" placeholder="Tell us how we can help you..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Send Message</button>
       </form>
-    </section>
-  </main>
-  <%- include('partials/footer') %>
-</body>
-</html>
+      <p style="font-size: 0.9em; color: #666; margin-top: 1rem;">We'll respond to your message within 24 business hours.</p>
+    </article>
+  </div>
+</section>
+
+<style>
+  .contact-section {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .contact-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-top: 2rem;
+  }
+  @media (max-width: 768px) {
+    .contact-content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+  .contact-info h3,
+  .contact-form-wrapper h2 {
+    color: #01b0d3;
+    font-size: 1.3em;
+    margin-bottom: 1rem;
+  }
+  .info-card {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #01b0d3;
+  }
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+  }
+  .form-group textarea {
+    min-height: 150px;
+  }
+</style>

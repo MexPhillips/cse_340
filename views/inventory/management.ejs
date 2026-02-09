@@ -1,4 +1,12 @@
-<h1>Inventory Management</h1>
+<h1><%= title %></h1>
+
+<% if (typeof messages !== 'undefined' && messages.length) { %>
+  <% messages.forEach(msg => { %>
+    <div class="alert alert-<%= msg.type === 'success' ? 'success' : 'error' %>" role="alert">
+      <%= msg.message %>
+    </div>
+  <% }) %>
+<% } %>
 
 <% if (flashMessage) { %>
   <div class="message <%= messageType || 'info' %>">

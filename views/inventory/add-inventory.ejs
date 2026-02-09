@@ -1,16 +1,185 @@
-<h1>Add Inventory Item</h1>
-<% if (errors) { errors.forEach(e => { %>
-  <p style="color:red"><%= e.msg %></p>
-<% }) } %>
-<form action="/inv/add-inventory" method="post">
-  <label for="inv_make">Make:</label>
-  <input type="text" id="inv_make" name="inv_make" value="<%= inv_make || '' %>" required>
+<h1><%= title %></h1>
 
-  <label for="inv_model">Model:</label>
-  <input type="text" id="inv_model" name="inv_model" value="<%= inv_model || '' %>" required>
+<% if (errors && errors.length) { %>
+  <div class="alert alert-danger" role="alert">
+    <h2>Please Fix the Following Errors:</h2>
+    <ul>
+      <% errors.forEach(err => { %>
+        <li><%= typeof err === 'string' ? err : err.msg %></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
 
-  <label for="classification_id">Classification:</label>
-  <%- classificationSelect %>
+<form action="/inv/add-inventory" method="post" id="inventoryForm">
+  <div class="form-group">
+    <label for="classification_id">Classification *</label>
+    <select id="classification_id" name="classification_id" required>
+      <option value="">Choose a Classification</option>
+      <%- classificationSelect %>
+    </select>
+  </div>
 
-  <button type="submit">Add Vehicle</button>
+  <div class="form-group">
+    <label for="inv_make">Maker *</label>
+    <input 
+      type="text" 
+      id="inv_make" 
+      name="inv_make" 
+      value="<%= typeof inv_make !== 'undefined' ? inv_make : '' %>"
+      required
+      maxlength="50"
+      placeholder="e.g., Toyota">
+  </div>
+
+  <div class="form-group">
+    <label for="inv_model">Model *</label>
+    <input 
+      type="text" 
+      id="inv_model" 
+      name="inv_model" 
+      value="<%= typeof inv_model !== 'undefined' ? inv_model : '' %>"
+      required
+      maxlength="50"
+      placeholder="e.g., Camry">
+  </div>
+
+  <div class="form-group">
+    <label for="inv_year">Year *</label>
+    <input 
+      type="number" 
+      id="inv_year" 
+      name="inv_year" 
+      value="<%= typeof inv_year !== 'undefined' ? inv_year : '' %>"
+      required
+      min="1920"
+      max="2100"
+      placeholder="e.g., 2020">
+  </div>
+
+  <div class="form-group">
+    <label for="inv_description">Description *</label>
+    <textarea 
+      id="inv_description" 
+      name="inv_description" 
+      required
+      maxlength="2000"
+      placeholder="Describe the vehicle condition and features..."><%= typeof inv_description !== 'undefined' ? inv_description : '' %></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="inv_image">Image Path</label>
+    <input 
+      type="text" 
+      id="inv_image" 
+      name="inv_image" 
+      value="<%= typeof inv_image !== 'undefined' ? inv_image : '' %>"
+      maxlength="255"
+      placeholder="/images/vehicles/image.jpg">
+  </div>
+
+  <div class="form-group">
+    <label for="inv_thumbnail">Thumbnail Path</label>
+    <input 
+      type="text" 
+      id="inv_thumbnail" 
+      name="inv_thumbnail" 
+      value="<%= typeof inv_thumbnail !== 'undefined' ? inv_thumbnail : '' %>"
+      maxlength="255"
+      placeholder="/images/vehicles/thumbnail.jpg">
+  </div>
+
+  <div class="form-group">
+    <label for="inv_price">Price *</label>
+    <input 
+      type="number" 
+      id="inv_price" 
+      name="inv_price" 
+      value="<%= typeof inv_price !== 'undefined' ? inv_price : '' %>"
+      required
+      min="0"
+      step="0.01"
+      placeholder="e.g., 25000.00">
+  </div>
+
+  <div class="form-group">
+    <label for="inv_miles">Miles *</label>
+    <input 
+      type="number" 
+      id="inv_miles" 
+      name="inv_miles" 
+      value="<%= typeof inv_miles !== 'undefined' ? inv_miles : '' %>"
+      required
+      min="0"
+      placeholder="e.g., 45000">
+  </div>
+
+  <div class="form-group">
+    <label for="inv_color">Color</label>
+    <input 
+      type="text" 
+      id="inv_color" 
+      name="inv_color" 
+      value="<%= typeof inv_color !== 'undefined' ? inv_color : '' %>"
+      maxlength="50"
+      placeholder="e.g., Blue">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Add Vehicle</button>
+  <a href="/inv/management" class="btn btn-secondary">Cancel</a>
 </form>
+
+<script>
+  // Client-side validation
+  document.getElementById('inventoryForm').addEventListener('submit', function(e) {
+    const classificationId = document.getElementById('classification_id').value;
+    const make = document.getElementById('inv_make').value.trim();
+    const model = document.getElementById('inv_model').value.trim();
+    const year = parseInt(document.getElementById('inv_year').value);
+    const description = document.getElementById('inv_description').value.trim();
+    const price = parseFloat(document.getElementById('inv_price').value);
+    const miles = parseInt(document.getElementById('inv_miles').value);
+
+    if (!classificationId) {
+      e.preventDefault();
+      alert('Please select a classification');
+      return false;
+    }
+
+    if (!make || make.length === 0 || make.length > 50) {
+      e.preventDefault();
+      alert('Make is required and must be 50 characters or less');
+      return false;
+    }
+
+    if (!model || model.length === 0 || model.length > 50) {
+      e.preventDefault();
+      alert('Model is required and must be 50 characters or less');
+      return false;
+    }
+
+    if (!year || year < 1920 || year > 2100) {
+      e.preventDefault();
+      alert('Year must be between 1920 and 2100');
+      return false;
+    }
+
+    if (!description || description.length === 0 || description.length > 2000) {
+      e.preventDefault();
+      alert('Description is required and must be 2000 characters or less');
+      return false;
+    }
+
+    if (!price || price < 0) {
+      e.preventDefault();
+      alert('Price is required and must be a positive number');
+      return false;
+    }
+
+    if (miles === '' || miles < 0) {
+      e.preventDefault();
+      alert('Miles is required and must be a positive number');
+      return false;
+    }
+  });
+</script>
