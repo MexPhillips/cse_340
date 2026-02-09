@@ -80,3 +80,5 @@ invCont.buildManagement = async function (req, res, next) {
 invCont.throwError = async function (req, res) {
   throw new Error("I made this error on purpose")
 }
+
+module.exports = invCont

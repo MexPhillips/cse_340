@@ -18,12 +18,10 @@ if (!process.env.DATABASE_URL) {
     },
   }
 } else {
-  // Use SSL in production environments if required by the host
-  const useSSL = process.env.NODE_ENV === 'production'
-
+  // Use SSL for database connections (required by most remote databases like Render)
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ...(useSSL && { ssl: { rejectUnauthorized: false } }),
+    ssl: { rejectUnauthorized: false },
   })
 
   // Helpful wrapper to log queries during development

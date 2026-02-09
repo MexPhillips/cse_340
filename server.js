@@ -23,6 +23,19 @@ app.use(expressLayouts)
 app.set("layout", "layouts/layout") // layout file under views/layouts/layout.ejs
 
 /* ***********************
+ * Middleware to add nav to all views
+ *************************/
+const utilities = require("./utilities")
+app.use(async (req, res, next) => {
+  try {
+    res.locals.nav = await utilities.getNav()
+    next()
+  } catch (error) {
+    next(error)
+  }
+})
+
+/* ***********************
  * Routes
  *************************/
 app.get("/", baseController.buildHome)
@@ -44,7 +57,9 @@ app.use((req, res, next) => {
 
 // 500 error handler
 app.use((err, req, res, next) => {
-  console.error(err.stack)
+  console.error("=== SERVER ERROR ===")
+  console.error(err)
+  console.error("===================")
   res.status(500).render('errors/error', {
     title: 'Server Error',
     message: 'Something went wrong on our end. Please try again later.'
