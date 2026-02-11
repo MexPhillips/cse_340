@@ -108,7 +108,17 @@ accountController.registerUser = async function (req, res, next) {
     }
 
     // Generate JWT token for the new user
-    const token = authMiddleware.generateToken(newUser.account_id, newUser.account_email)
+    let token
+    try {
+      token = authMiddleware.generateToken(newUser.account_id, newUser.account_email)
+    } catch (tokenError) {
+      console.error("JWT generation failed during registration: " + tokenError.message)
+      return res.status(500).json({
+        success: false,
+        message: "Server configuration error. Please contact support.",
+        debugError: process.env.NODE_ENV === 'development' ? 'JWT_SECRET not configured' : undefined
+      })
+    }
 
     // Return success response with token
     return res.status(201).json({
@@ -181,7 +191,17 @@ accountController.loginUser = async function (req, res, next) {
     }
 
     // Credentials are valid, generate JWT token
-    const token = authMiddleware.generateToken(user.account_id, user.account_email)
+    let token
+    try {
+      token = authMiddleware.generateToken(user.account_id, user.account_email)
+    } catch (tokenError) {
+      console.error("JWT generation failed during login: " + tokenError.message)
+      return res.status(500).json({
+        success: false,
+        message: "Server configuration error. Please contact support.",
+        debugError: process.env.NODE_ENV === 'development' ? 'JWT_SECRET not configured' : undefined
+      })
+    }
 
     // Return success response with token
     return res.status(200).json({

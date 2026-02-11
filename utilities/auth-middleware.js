@@ -50,21 +50,30 @@ authMiddleware.verifyJWT = (req, res, next) => {
  *  Generate JWT Token
  *  Creates a JWT token with user information
  *  Expires in 24 hours (86400 seconds)
+ *  Validates JWT_SECRET before attempting to sign
  *  Returns: JWT token string
  * ************************** */
 authMiddleware.generateToken = (userId, email) => {
   try {
+    // Validate that JWT_SECRET is configured
+    const secret = process.env.JWT_SECRET
+    if (!secret || secret.trim() === '') {
+      const errorMsg = 'JWT_SECRET is not configured in environment variables.'
+      console.error('Critical Error: ' + errorMsg)
+      throw new Error(errorMsg)
+    }
+
     const token = jwt.sign(
       {
         accountId: userId,
         email: email
       },
-      process.env.JWT_SECRET,
+      secret,
       { expiresIn: "24h" } // Token valid for 24 hours
     )
     return token
   } catch (error) {
-    console.error("Error generating JWT token: " + error)
+    console.error("Error generating JWT token: " + error.message)
     throw error
   }
 }
