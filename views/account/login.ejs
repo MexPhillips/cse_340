@@ -1,0 +1,315 @@
+<main class="login-container">
+  <div class="form-wrapper">
+    <h1>Log In</h1>
+    
+    <!-- Display form validation errors if any -->
+    <% if (locals.errors && errors.length > 0) { %>
+      <div class="error-messages" role="alert">
+        <h2>Please correct the following errors:</h2>
+        <ul>
+          <% errors.forEach(error => { %>
+            <li><%= error.msg %></li>
+          <% }) %>
+        </ul>
+      </div>
+    <% } %>
+
+    <!-- Login Form -->
+    <form id="loginForm" novalidate>
+      
+      <!-- Email Field -->
+      <fieldset>
+        <legend>Account Credentials</legend>
+        
+        <div class="form-group">
+          <label for="email">Email Address:</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            placeholder="you@example.com"
+            value="<%= locals.email || '' %>"
+            required 
+            aria-required="true"
+            aria-describedby="email-help"
+          />
+          <small id="email-help">Enter the email address associated with your account</small>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            placeholder="Enter your password"
+            required 
+            aria-required="true"
+            aria-describedby="password-help"
+          />
+          <small id="password-help">Enter your account password</small>
+        </div>
+
+      </fieldset>
+
+      <!-- Submit Button -->
+      <div class="form-group form-actions">
+        <button type="submit" class="btn btn-primary">Log In</button>
+        <p class="register-link">
+          Don't have an account? 
+          <a href="/account/register">Create one here</a>
+        </p>
+      </div>
+
+    </form>
+
+    <!-- Success Message (hidden by default) -->
+    <div id="successMessage" style="display: none; background-color: #e8f5e9; border: 1px solid #4caf50; border-radius: 4px; padding: 1.5rem; margin-top: 1.5rem; text-align: center;">
+      <h2 style="color: #2e7d32; margin-top: 0;">✓ Login Successful!</h2>
+      <p style="color: #555; margin: 1rem 0;">Redirecting to home page...</p>
+    </div>
+
+  </div>
+</main>
+
+<style>
+  .login-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+  }
+
+  .form-wrapper {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 2rem;
+  }
+
+  .form-wrapper h1 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #333;
+  }
+
+  .error-messages {
+    background-color: #fee;
+    border: 1px solid #f00;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .error-messages h2 {
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #c33;
+  }
+
+  .error-messages ul {
+    margin: 0.5rem 0 0 1.5rem;
+    padding: 0;
+  }
+
+  .error-messages li {
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+
+  fieldset {
+    border: none;
+    padding: 0;
+    margin-bottom: 1.5rem;
+  }
+
+  legend {
+    font-weight: bold;
+    margin-bottom: 1rem;
+    padding: 0;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 5px rgba(0, 102, 204, 0.3);
+  }
+
+  small {
+    display: block;
+    margin-top: 0.25rem;
+    color: #666;
+    font-size: 0.875rem;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-primary {
+    background-color: #0066cc;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background-color: #0052a3;
+  }
+
+  .register-link {
+    text-align: center;
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  .register-link a {
+    color: #0066cc;
+    text-decoration: none;
+  }
+
+  .register-link a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<script>
+  // Handle form submission with fetch and redirect on success
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault()
+
+    // Get form values
+    const email = document.getElementById('email').value.trim()
+    const password = document.getElementById('password').value
+
+    // Basic client-side validation
+    if (!email || !password) {
+      showError('Both email and password are required')
+      return
+    }
+
+    // Get button and add loading state
+    const submitBtn = document.querySelector('.btn-primary')
+    const originalText = submitBtn.textContent
+    submitBtn.disabled = true
+    submitBtn.textContent = 'Logging In...'
+
+    try {
+      // Send login request
+      const response = await fetch('/account/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          password: password
+        })
+      })
+
+      const result = await response.json()
+
+      if (response.ok && result.success) {
+        // Store token in localStorage
+        if (result.token) {
+          localStorage.setItem('authToken', result.token)
+        }
+
+        // Store user data in localStorage
+        if (result.user) {
+          localStorage.setItem('userData', JSON.stringify({
+            id: result.user.id,
+            username: result.user.username,
+            email: result.user.email
+          }))
+        }
+
+        // Hide form and show success message
+        document.querySelector('.form-wrapper').style.display = 'none'
+        document.getElementById('successMessage').style.display = 'block'
+
+        // Redirect to home page after 2 seconds
+        setTimeout(() => {
+          window.location.href = '/'
+        }, 2000)
+      } else {
+        // Show error message
+        const errorMsg = result.message || 'Login failed. Please try again.'
+        showError(errorMsg, result.errors)
+        
+        // Reset button
+        submitBtn.disabled = false
+        submitBtn.textContent = originalText
+      }
+    } catch (error) {
+      console.error('Login error:', error)
+      showError('Network error. Please check your connection and try again.')
+      
+      // Reset button
+      submitBtn.disabled = false
+      submitBtn.textContent = originalText
+    }
+  })
+
+  // Helper function to show error messages
+  function showError(message, errors = null) {
+    // Remove any existing error messages
+    const existingError = document.querySelector('.error-messages')
+    if (existingError) {
+      existingError.remove()
+    }
+
+    // Create error div
+    const errorDiv = document.createElement('div')
+    errorDiv.className = 'error-messages'
+    errorDiv.setAttribute('role', 'alert')
+    
+    let errorHTML = `<h2>⚠️ Error</h2><p>${message}</p>`
+    
+    if (errors && Array.isArray(errors) && errors.length > 0) {
+      errorHTML += '<ul>'
+      errors.forEach(err => {
+        errorHTML += `<li>${err.msg || err}</li>`
+      })
+      errorHTML += '</ul>'
+    }
+    
+    errorDiv.innerHTML = errorHTML
+    document.querySelector('.form-wrapper').insertBefore(errorDiv, document.querySelector('form'))
+    
+    // Scroll to error
+    errorDiv.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+</script>

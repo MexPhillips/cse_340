@@ -2,4 +2,149 @@
   <span class="siteName">
     <a href="/" title="Return to home page">CSE Motors</a>
   </span>
+  <div class="user-account-area" id="userAccountArea" style="display: none;">
+    <span class="user-greeting">Welcome, <strong id="headerUsername">User</strong></span>
+    <a href="/account/details" class="user-link">My Account</a>
+    <button class="user-logout" id="logoutBtn">Logout</button>
+  </div>
 </header>
+
+<style>
+  #top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+  }
+
+  .user-account-area {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .user-greeting {
+    color: #333;
+  }
+
+  .user-greeting strong {
+    color: #0066cc;
+    font-weight: 700;
+  }
+
+  .user-link {
+    color: #0066cc;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border: 1px solid #0066cc;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+
+  .user-link:hover {
+    background-color: #0066cc;
+    color: white;
+  }
+
+  .user-logout {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+
+  .user-logout:hover {
+    background-color: #d32f2f;
+  }
+
+  @media (max-width: 768px) {
+    #top-header {
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 0.75rem;
+    }
+
+    .user-account-area {
+      width: 100%;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .user-greeting {
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .user-link,
+    .user-logout {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .user-link {
+      box-sizing: border-box;
+    }
+
+    .user-logout {
+      box-sizing: border-box;
+    }
+  }
+
+  @media (max-width: 480px) {
+    #top-header {
+      padding: 0.5rem;
+      gap: 0.5rem;
+    }
+
+    .siteName {
+      font-size: 1.2rem;
+    }
+
+    .user-greeting {
+      font-size: 0.8rem;
+    }
+
+    .user-link,
+    .user-logout {
+      padding: 0.6rem 0.8rem;
+      font-size: 0.85rem;
+    }
+  }
+</style>
+
+<script>
+  // Check if user is logged in and display username in header
+  document.addEventListener('DOMContentLoaded', function() {
+    try {
+      const userDataStr = localStorage.getItem('userData')
+      const authToken = localStorage.getItem('authToken')
+      
+      if (userDataStr && authToken) {
+        const userData = JSON.parse(userDataStr)
+        const userAccountArea = document.getElementById('userAccountArea')
+        const headerUsername = document.getElementById('headerUsername')
+        
+        headerUsername.textContent = userData.username || 'User'
+        userAccountArea.style.display = 'flex'
+        
+        // Add logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+          localStorage.removeItem('authToken')
+          localStorage.removeItem('userData')
+          window.location.href = '/'
+        })
+      }
+    } catch (error) {
+      console.error('Error loading user data in header:', error)
+    }
+  })
+</script>

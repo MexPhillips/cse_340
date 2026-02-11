@@ -13,6 +13,7 @@ const app = express()
 const static = require("./routes/static")
 const pages = require("./routes/pages")
 const invRoutes = require("./routes/inventoryRoute")
+const accountRoutes = require("./routes/accountRoute")
 const baseController = require("./controllers/baseController")
 const errorController = require("./controllers/errorController")
 
@@ -61,6 +62,7 @@ app.get("/", baseController.buildHome)
 
 app.use(pages)
 app.use('/inv', invRoutes)
+app.use('/account', accountRoutes)
 app.use(static)
 
 /* ***********************

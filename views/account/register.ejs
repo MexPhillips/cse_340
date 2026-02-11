@@ -1,0 +1,374 @@
+<main class="registration-container">
+  <div class="form-wrapper">
+    <h1>Create Account</h1>
+    
+    <!-- Display form validation errors if any -->
+    <% if (locals.errors && errors.length > 0) { %>
+      <div class="error-messages" role="alert">
+        <h2>Please correct the following errors:</h2>
+        <ul>
+          <% errors.forEach(error => { %>
+            <li><%= error.msg %></li>
+          <% }) %>
+        </ul>
+      </div>
+    <% } %>
+
+    <!-- Registration Form -->
+    <form id="registrationForm" novalidate>
+      
+      <!-- Username Field -->
+      <fieldset>
+        <legend>Account Information</legend>
+        
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input 
+            type="text" 
+            id="username" 
+            name="username" 
+            placeholder="Enter a username (min 3 characters)"
+            value="<%= locals.username || '' %>"
+            required 
+            aria-required="true"
+            aria-describedby="username-help"
+          />
+          <small id="username-help">Must be at least 3 characters long</small>
+        </div>
+
+        <!-- Email Field -->
+        <div class="form-group">
+          <label for="email">Email Address:</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            placeholder="you@example.com"
+            value="<%= locals.email || '' %>"
+            required 
+            aria-required="true"
+            aria-describedby="email-help"
+          />
+          <small id="email-help">Please provide a valid email address</small>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            placeholder="Enter a strong password"
+            required 
+            aria-required="true"
+            aria-describedby="password-help"
+          />
+          <small id="password-help">
+            Password must be at least 8 characters and include:
+            <ul>
+              <li>At least one uppercase letter (A-Z)</li>
+              <li>At least one number (0-9)</li>
+              <li>At least one special character (!@#$%^&*)</li>
+            </ul>
+          </small>
+        </div>
+
+      </fieldset>
+
+      <!-- Submit Button -->
+      <div class="form-group form-actions">
+        <button type="submit" class="btn btn-primary">Create Account</button>
+        <p class="login-link">
+          Already have an account? 
+          <a href="/account/login">Log in here</a>
+        </p>
+      </div>
+
+    </form>
+
+    <!-- Success Message (hidden by default) -->
+    <div id="successMessage" style="display: none; background-color: #e8f5e9; border: 1px solid #4caf50; border-radius: 4px; padding: 1.5rem; margin-top: 1.5rem; text-align: center;">
+      <h2 style="color: #2e7d32; margin-top: 0;">✓ Account Created Successfully!</h2>
+      <p style="color: #555; margin: 1rem 0;">Redirecting to your congratulations page...</p>
+    </div>
+
+  </div>
+</main>
+
+<style>
+  .registration-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+  }
+
+  .form-wrapper {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 2rem;
+  }
+
+  .form-wrapper h1 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #333;
+  }
+
+  .error-messages {
+    background-color: #fee;
+    border: 1px solid #f00;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .error-messages h2 {
+    font-size: 1rem;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #c33;
+  }
+
+  .error-messages ul {
+    margin: 0.5rem 0 0 1.5rem;
+    padding: 0;
+  }
+
+  .error-messages li {
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+
+  fieldset {
+    border: none;
+    padding: 0;
+    margin-bottom: 1.5rem;
+  }
+
+  legend {
+    font-weight: bold;
+    margin-bottom: 1rem;
+    padding: 0;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 5px rgba(0, 102, 204, 0.3);
+  }
+
+  small {
+    display: block;
+    margin-top: 0.25rem;
+    color: #666;
+    font-size: 0.875rem;
+  }
+
+  small ul {
+    margin: 0.5rem 0 0 1.25rem;
+    padding: 0;
+  }
+
+  small li {
+    margin: 0.25rem 0;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+  }
+
+  .btn-primary {
+    background-color: #0066cc;
+    color: white;
+    width: 100%;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background-color: #0052a3;
+    box-shadow: 0 2px 8px rgba(0, 102, 204, 0.3);
+  }
+
+  .btn-primary:active:not(:disabled) {
+    background-color: #003d7a;
+    transform: translateY(1px);
+  }
+
+  .btn-primary:disabled {
+    background-color: #0066cc;
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .login-link {
+    text-align: center;
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  .login-link a {
+    color: #0066cc;
+    text-decoration: none;
+  }
+
+  .login-link a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<script>
+  // Handle form submission with fetch and redirect on success
+  document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+    e.preventDefault()
+
+    // Get form values
+    const username = document.getElementById('username').value.trim()
+    const email = document.getElementById('email').value.trim()
+    const password = document.getElementById('password').value
+
+    // Basic client-side validation
+    if (!username || !email || !password) {
+      showError('All fields are required')
+      return
+    }
+
+    if (username.length < 3) {
+      showError('Username must be at least 3 characters long')
+      return
+    }
+
+    if (password.length < 8) {
+      showError('Password must be at least 8 characters long')
+      return
+    }
+
+    // Get button and add loading state
+    const submitBtn = document.querySelector('.btn-primary')
+    const originalText = submitBtn.textContent
+    submitBtn.disabled = true
+    submitBtn.textContent = 'Creating Account...'
+
+    try {
+      // Send registration request
+      const response = await fetch('/account/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: username,
+          email: email,
+          password: password
+        })
+      })
+
+      const result = await response.json()
+
+      if (response.ok && result.success) {
+        // Store token in localStorage
+        if (result.token) {
+          localStorage.setItem('authToken', result.token)
+        }
+
+        // Store user data in localStorage
+        if (result.user) {
+          localStorage.setItem('userData', JSON.stringify({
+            id: result.user.id,
+            username: result.user.username,
+            email: result.user.email
+          }))
+        }
+
+        // Hide form and show success message
+        document.querySelector('.form-wrapper').style.display = 'none'
+        document.getElementById('successMessage').style.display = 'block'
+
+        // Redirect to success page after 2 seconds
+        setTimeout(() => {
+          window.location.href = '/account/success'
+        }, 2000)
+      } else {
+        // Show error message
+        const errorMsg = result.message || 'Registration failed. Please try again.'
+        showError(errorMsg, result.errors)
+        
+        // Reset button
+        submitBtn.disabled = false
+        submitBtn.textContent = originalText
+      }
+    } catch (error) {
+      console.error('Registration error:', error)
+      showError('Network error. Please check your connection and try again.')
+      
+      // Reset button
+      submitBtn.disabled = false
+      submitBtn.textContent = originalText
+    }
+  })
+
+  // Helper function to show error messages
+  function showError(message, errors = null) {
+    // Remove any existing error messages
+    const existingError = document.querySelector('.error-messages')
+    if (existingError) {
+      existingError.remove()
+    }
+
+    // Create error div
+    const errorDiv = document.createElement('div')
+    errorDiv.className = 'error-messages'
+    errorDiv.setAttribute('role', 'alert')
+    
+    let errorHTML = `<h2>⚠️ Error</h2><p>${message}</p>`
+    
+    if (errors && Array.isArray(errors) && errors.length > 0) {
+      errorHTML += '<ul>'
+      errors.forEach(err => {
+        errorHTML += `<li>${err.msg || err}</li>`
+      })
+      errorHTML += '</ul>'
+    }
+    
+    errorDiv.innerHTML = errorHTML
+    document.querySelector('.form-wrapper').insertBefore(errorDiv, document.querySelector('form'))
+    
+    // Scroll to error
+    errorDiv.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+</script>

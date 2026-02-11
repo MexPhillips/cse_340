@@ -1,0 +1,665 @@
+<main class="account-management-container">
+  <div class="account-wrapper">
+    <!-- Welcome Greeting (Account Type Based) -->
+    <div id="greetingSection" style="display: none;">
+      <div class="greeting-card">
+        <h1 id="greetingMessage">Welcome!</h1>
+        <p id="greetingDescription">Manage your account and security settings</p>
+      </div>
+    </div>
+    
+    <!-- Loading State -->
+    <div id="loadingState" style="text-align: center; padding: 2rem;">
+      <p>Loading your account information...</p>
+    </div>
+
+    <!-- Account Information Section -->
+    <div id="accountInfo" style="display: none;">
+      
+      <!-- Account Details Card -->
+      <div class="account-card">
+        <h2>Account Information</h2>
+        <div class="account-details">
+          <div class="detail-row">
+            <span class="label">First Name:</span>
+            <span class="value" id="firstName">---</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Last Name:</span>
+            <span class="value" id="lastName">---</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Email Address:</span>
+            <span class="value" id="accountEmail">---</span>
+          </div>
+          <div class="detail-row">
+            <span class="label">Account Type:</span>
+            <span class="value" id="accountType">Standard</span>
+          </div>
+        </div>
+        <button class="btn btn-primary" id="editBtn" style="margin-top: 1rem;">Edit Account Information</button>
+      </div>
+
+      <!-- Edit Account Form (Hidden by default) -->
+      <div id="editAccountForm" style="display: none;">
+        <div class="account-card">
+          <h2>Edit Account Information</h2>
+          <form id="updateAccountForm" novalidate>
+            <div class="form-group">
+              <label for="editFirstName">First Name:</label>
+              <input type="text" id="editFirstName" name="firstname" required>
+            </div>
+            <div class="form-group">
+              <label for="editLastName">Last Name:</label>
+              <input type="text" id="editLastName" name="lastname" required>
+            </div>
+            <div class="form-group">
+              <label for="editEmail">Email Address:</label>
+              <input type="email" id="editEmail" name="email" required>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+              <button type="button" class="btn btn-default" id="cancelEditBtn">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Change Password Card -->
+      <div class="account-card">
+        <h2>Security</h2>
+        <p style="color: #666; margin-bottom: 1rem;">Keep your account secure by updating your password regularly.</p>
+        <button class="btn btn-secondary" id="changePasswordBtn">Change Password</button>
+      </div>
+
+      <!-- Change Password Form (Hidden by default) -->
+      <div id="changePasswordForm" style="display: none;">
+        <div class="account-card">
+          <h2>Change Password</h2>
+          <form id="updatePasswordForm" novalidate>
+            <div class="form-group">
+              <label for="currentPassword">Current Password:</label>
+              <input type="password" id="currentPassword" name="currentPassword" required>
+              <small>Enter your current password for verification</small>
+            </div>
+            <div class="form-group">
+              <label for="newPassword">New Password:</label>
+              <input type="password" id="newPassword" name="newPassword" required>
+              <small>
+                Password must be at least 8 characters and include:
+                <ul style="margin: 0.25rem 0 0 1.5rem; padding: 0;">
+                  <li>At least one uppercase letter (A-Z)</li>
+                  <li>At least one number (0-9)</li>
+                  <li>At least one special character (!@#$%^&*)</li>
+                </ul>
+              </small>
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Confirm Password:</label>
+              <input type="password" id="confirmPassword" name="confirmPassword" required>
+              <small>Re-enter your new password</small>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Update Password</button>
+              <button type="button" class="btn btn-default" id="cancelPasswordBtn">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Back Button -->
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="/" class="btn btn-default">Back to Home</a>
+      </div>
+
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" style="display: none; background-color: #fee; border: 1px solid #f00; border-radius: 4px; padding: 1rem; margin-top: 1rem;">
+      <h2 style="margin: 0 0 0.5rem 0; color: #c33;">Error Loading Account</h2>
+      <p id="errorMessage" style="margin: 0 0 1rem 0;"></p>
+      <a href="/" class="btn btn-primary" style="display: inline-block; padding: 0.5rem 1rem; background-color: #0066cc; color: white; text-decoration: none; border-radius: 4px;">Return to Home</a>
+    </div>
+
+  </div>
+</main>
+
+<style>
+  .account-management-container {
+    min-height: calc(100vh - 300px);
+    padding: 2rem;
+    background-color: #f5f5f5;
+  }
+
+  .account-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .greeting-card {
+    background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
+  }
+
+  .greeting-card h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+  }
+
+  .greeting-card p {
+    margin: 0;
+    opacity: 0.9;
+  }
+
+  .account-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .account-card h2 {
+    font-size: 1.3rem;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #0066cc;
+    padding-bottom: 0.5rem;
+  }
+
+  .account-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .detail-row:last-child {
+    border-bottom: none;
+  }
+
+  .detail-row .label {
+    font-weight: 600;
+    color: #555;
+    min-width: 150px;
+  }
+
+  .detail-row .value {
+    color: #0066cc;
+    font-weight: 500;
+    word-break: break-all;
+    text-align: right;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+
+  .form-group input:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 5px rgba(0, 102, 204, 0.3);
+  }
+
+  .form-group small {
+    display: block;
+    margin-top: 0.25rem;
+    color: #666;
+    font-size: 0.875rem;
+  }
+
+  .form-group small ul {
+    margin: 0.25rem 0 0 1.5rem;
+    padding: 0;
+  }
+
+  .form-group small li {
+    margin-bottom: 0.25rem;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .btn-primary {
+    background-color: #0066cc;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background-color: #0052a3;
+    box-shadow: 0 2px 8px rgba(0, 102, 204, 0.3);
+  }
+
+  .btn-primary:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .btn-secondary {
+    background-color: #28a745;
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background-color: #218838;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+  }
+
+  .btn-default {
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+  }
+
+  .btn-default:hover {
+    background-color: #e0e0e0;
+  }
+
+  .error-messages {
+    background-color: #fee;
+    border: 1px solid #f00;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .error-messages h3 {
+    margin-top: 0;
+    color: #c33;
+    font-size: 1rem;
+  }
+
+  .error-messages ul {
+    margin: 0.5rem 0 0 1.5rem;
+    padding: 0;
+  }
+
+  .error-messages li {
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+
+  .success-messages {
+    background-color: #e8f5e9;
+    border: 1px solid #4caf50;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .success-messages h3 {
+    margin-top: 0;
+    color: #2e7d32;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 600px) {
+    .account-management-container {
+      padding: 1rem;
+    }
+
+    .account-card {
+      padding: 1.5rem;
+    }
+
+    .detail-row {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .detail-row .label {
+      min-width: auto;
+    }
+
+    .detail-row .value {
+      text-align: left;
+    }
+
+    .btn {
+      padding: 0.6rem 1rem;
+      font-size: 0.95rem;
+    }
+
+    .form-actions {
+      flex-direction: column;
+    }
+
+    .btn {
+      width: 100%;
+    }
+
+    .greeting-card h1 {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  // Load account details when page loads
+  document.addEventListener('DOMContentLoaded', async function() {
+    try {
+      // Check if user is authenticated
+      if (!isAuthenticated()) {
+        console.warn('User not authenticated. Redirecting to login.')
+        window.location.href = '/account/login'
+        return
+      }
+
+      // Fetch account details from protected endpoint
+      const result = await authenticatedFetch('/account/', {
+        method: 'GET'
+      })
+
+      if (result && result.success) {
+        // Hide loading, show account info
+        document.getElementById('loadingState').style.display = 'none'
+        document.getElementById('accountInfo').style.display = 'block'
+        document.getElementById('greetingSection').style.display = 'block'
+
+        // Populate account details
+        const user = result.user
+        const firstName = user.firstname || '---'
+        const lastName = user.lastname || '---'
+        
+        document.getElementById('firstName').textContent = firstName
+        document.getElementById('lastName').textContent = lastName
+        document.getElementById('accountEmail').textContent = user.email || '---'
+        document.getElementById('accountType').textContent = 'Standard User'
+
+        // Set greeting based on account type
+        const greeting = `Welcome, ${firstName}!`
+        document.getElementById('greetingMessage').textContent = greeting
+        document.getElementById('greetingDescription').textContent = 'Manage your account and security settings below'
+
+        // Pre-fill edit form
+        document.getElementById('editFirstName').value = firstName
+        document.getElementById('editLastName').value = lastName
+        document.getElementById('editEmail').value = user.email || ''
+
+      } else {
+        showError(result?.message || 'Failed to load account details')
+      }
+
+    } catch (error) {
+      console.error('Error loading account:', error)
+      showError('An error occurred while loading your account. Please try again.')
+    }
+
+    // ===== EDIT ACCOUNT HANDLERS =====
+    document.getElementById('editBtn').addEventListener('click', function() {
+      document.getElementById('editAccountForm').style.display = 'block'
+      this.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+
+    document.getElementById('cancelEditBtn').addEventListener('click', function() {
+      document.getElementById('editAccountForm').style.display = 'none'
+    })
+
+    document.getElementById('updateAccountForm').addEventListener('submit', async function(e) {
+      e.preventDefault()
+
+      const firstName = document.getElementById('editFirstName').value.trim()
+      const lastName = document.getElementById('editLastName').value.trim()
+      const email = document.getElementById('editEmail').value.trim()
+
+      // Validation
+      if (!firstName || !lastName || !email) {
+        showFormError('updateAccountForm', 'All fields are required')
+        return
+      }
+
+      if (firstName.length < 1) {
+        showFormError('updateAccountForm', 'First name is required')
+        return
+      }
+
+      if (lastName.length < 1) {
+        showFormError('updateAccountForm', 'Last name is required')
+        return
+      }
+
+      if (!email.includes('@')) {
+        showFormError('updateAccountForm', 'Please provide a valid email address')
+        return
+      }
+
+      // Disable button
+      const submitBtn = this.querySelector('button[type="submit"]')
+      const originalText = submitBtn.textContent
+      submitBtn.disabled = true
+      submitBtn.textContent = 'Saving...'
+
+      try {
+        const result = await authenticatedFetch('/account/update', {
+          method: 'PUT',
+          body: JSON.stringify({
+            firstname: firstName,
+            lastname: lastName,
+            email: email
+          })
+        })
+
+        if (result && result.success) {
+          // Update display
+          document.getElementById('firstName').textContent = firstName
+          document.getElementById('lastName').textContent = lastName
+          document.getElementById('accountEmail').textContent = email
+          document.getElementById('greetingMessage').textContent = `Welcome, ${firstName}!`
+          
+          // Update localStorage
+          const userData = getUserData()
+          userData.username = firstName
+          userData.email = email
+          localStorage.setItem('userData', JSON.stringify(userData))
+          
+          // Update header
+          const headerUsername = document.getElementById('headerUsername')
+          if (headerUsername) {
+            headerUsername.textContent = firstName
+          }
+
+          // Show success
+          showFormSuccess('updateAccountForm', 'Account updated successfully!')
+          
+          // Hide form
+          setTimeout(() => {
+            document.getElementById('editAccountForm').style.display = 'none'
+          }, 2000)
+        } else {
+          showFormError('updateAccountForm', result?.message || 'Failed to update account')
+        }
+      } catch (error) {
+        console.error('Update error:', error)
+        showFormError('updateAccountForm', 'Network error. Please try again.')
+      } finally {
+        submitBtn.disabled = false
+        submitBtn.textContent = originalText
+      }
+    })
+
+    // ===== CHANGE PASSWORD HANDLERS =====
+    document.getElementById('changePasswordBtn').addEventListener('click', function() {
+      document.getElementById('changePasswordForm').style.display = 'block'
+      this.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+
+    document.getElementById('cancelPasswordBtn').addEventListener('click', function() {
+      document.getElementById('changePasswordForm').style.display = 'none'
+    })
+
+    document.getElementById('updatePasswordForm').addEventListener('submit', async function(e) {
+      e.preventDefault()
+
+      const currentPassword = document.getElementById('currentPassword').value
+      const newPassword = document.getElementById('newPassword').value
+      const confirmPassword = document.getElementById('confirmPassword').value
+
+      // Validation
+      if (!currentPassword || !newPassword || !confirmPassword) {
+        showFormError('updatePasswordForm', 'All password fields are required')
+        return
+      }
+
+      if (newPassword.length < 8) {
+        showFormError('updatePasswordForm', 'New password must be at least 8 characters long')
+        return
+      }
+
+      if (!/[A-Z]/.test(newPassword)) {
+        showFormError('updatePasswordForm', 'Password must contain at least one uppercase letter')
+        return
+      }
+
+      if (!/[0-9]/.test(newPassword)) {
+        showFormError('updatePasswordForm', 'Password must contain at least one number')
+        return
+      }
+
+      if (!/[!@#$%^&*]/.test(newPassword)) {
+        showFormError('updatePasswordForm', 'Password must contain at least one special character (!@#$%^&*)')
+        return
+      }
+
+      if (newPassword !== confirmPassword) {
+        showFormError('updatePasswordForm', 'New passwords do not match')
+        return
+      }
+
+      // Disable button
+      const submitBtn = this.querySelector('button[type="submit"]')
+      const originalText = submitBtn.textContent
+      submitBtn.disabled = true
+      submitBtn.textContent = 'Updating...'
+
+      try {
+        const result = await authenticatedFetch('/account/update-password', {
+          method: 'PUT',
+          body: JSON.stringify({
+            currentPassword: currentPassword,
+            newPassword: newPassword,
+            confirmPassword: confirmPassword
+          })
+        })
+
+        if (result && result.success) {
+          // Show success
+          showFormSuccess('updatePasswordForm', 'Password updated successfully!')
+          
+          // Reset form
+          document.getElementById('updatePasswordForm').reset()
+          
+          // Hide form
+          setTimeout(() => {
+            document.getElementById('changePasswordForm').style.display = 'none'
+          }, 2000)
+        } else {
+          showFormError('updatePasswordForm', result?.message || 'Failed to update password')
+        }
+      } catch (error) {
+        console.error('Password update error:', error)
+        showFormError('updatePasswordForm', 'Network error. Please try again.')
+      } finally {
+        submitBtn.disabled = false
+        submitBtn.textContent = originalText
+      }
+    })
+  })
+
+  // Helper function to show form errors
+  function showFormError(formId, message) {
+    const form = document.getElementById(formId)
+    
+    // Remove any existing error messages
+    const existingError = form.querySelector('.error-messages')
+    if (existingError) {
+      existingError.remove()
+    }
+
+    // Create error div
+    const errorDiv = document.createElement('div')
+    errorDiv.className = 'error-messages'
+    errorDiv.innerHTML = `<h3>⚠️ Error</h3><p>${message}</p>`
+    
+    form.insertBefore(errorDiv, form.firstChild)
+    
+    // Scroll to error
+    errorDiv.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  // Helper function to show form success
+  function showFormSuccess(formId, message) {
+    const form = document.getElementById(formId)
+    
+    // Remove any existing messages
+    const existingMsg = form.querySelector('.error-messages, .success-messages')
+    if (existingMsg) {
+      existingMsg.remove()
+    }
+
+    // Create success div
+    const successDiv = document.createElement('div')
+    successDiv.className = 'success-messages'
+    successDiv.innerHTML = `<h3>✓ Success</h3><p>${message}</p>`
+    
+    form.insertBefore(successDiv, form.firstChild)
+    
+    // Scroll to success
+    successDiv.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  // Helper function to show page-level errors
+  function showError(message) {
+    document.getElementById('loadingState').style.display = 'none'
+    document.getElementById('accountInfo').style.display = 'none'
+    document.getElementById('greetingSection').style.display = 'none'
+    document.getElementById('errorState').style.display = 'block'
+    document.getElementById('errorMessage').textContent = message
+  }
+</script>

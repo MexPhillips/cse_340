@@ -98,6 +98,115 @@ const inventoryRules = () => {
   ]
 }
 
+/* *****************************
+ * Account Registration Validation Rules
+ ***************************** */
+const registerRules = () => {
+  return [
+    body("username")
+      .trim()
+      .notEmpty()
+      .withMessage("Username is required")
+      .isLength({ min: 3, max: 50 })
+      .withMessage("Username must be between 3 and 50 characters"),
+    
+    body("email")
+      .trim()
+      .isEmail()
+      .withMessage("Please provide a valid email address")
+      .normalizeEmail(),
+    
+    body("password")
+      .notEmpty()
+      .withMessage("Password is required")
+      .isLength({ min: 8 })
+      .withMessage("Password must be at least 8 characters long")
+      .matches(/[A-Z]/)
+      .withMessage("Password must contain at least one uppercase letter")
+      .matches(/[0-9]/)
+      .withMessage("Password must contain at least one number")
+      .matches(/[!@#$%^&*(),.?":{}|<>]/)
+      .withMessage("Password must contain at least one special character")
+  ]
+}
+
+/* *****************************
+ * Account Login Validation Rules
+ ***************************** */
+const loginRules = () => {
+  return [
+    body("email")
+      .trim()
+      .isEmail()
+      .withMessage("Please provide a valid email address")
+      .normalizeEmail(),
+    
+    body("password")
+      .notEmpty()
+      .withMessage("Password is required")
+  ]
+}
+
+/* *****************************
+ * Account Update Validation Rules
+ ***************************** */
+const updateAccountRules = () => {
+  return [
+    body("firstname")
+      .trim()
+      .notEmpty()
+      .withMessage("First name is required")
+      .isLength({ min: 1, max: 50 })
+      .withMessage("First name must be between 1 and 50 characters"),
+    
+    body("lastname")
+      .trim()
+      .notEmpty()
+      .withMessage("Last name is required")
+      .isLength({ min: 1, max: 50 })
+      .withMessage("Last name must be between 1 and 50 characters"),
+    
+    body("email")
+      .trim()
+      .isEmail()
+      .withMessage("Please provide a valid email address")
+      .normalizeEmail()
+  ]
+}
+
+/* *****************************
+ * Password Update Validation Rules
+ ***************************** */
+const updatePasswordRules = () => {
+  return [
+    body("currentPassword")
+      .notEmpty()
+      .withMessage("Current password is required"),
+    
+    body("newPassword")
+      .notEmpty()
+      .withMessage("New password is required")
+      .isLength({ min: 8 })
+      .withMessage("New password must be at least 8 characters long")
+      .matches(/[A-Z]/)
+      .withMessage("Password must contain at least one uppercase letter")
+      .matches(/[0-9]/)
+      .withMessage("Password must contain at least one number")
+      .matches(/[!@#$%^&*]/)
+      .withMessage("Password must contain at least one special character"),
+    
+    body("confirmPassword")
+      .notEmpty()
+      .withMessage("Password confirmation is required")
+      .custom((value, { req }) => {
+        if (value !== req.body.newPassword) {
+          throw new Error("Passwords do not match")
+        }
+        return true
+      })
+  ]
+}
+
 /* ****************************
  * Check Data and Return Errors
  **************************** */
@@ -113,5 +222,9 @@ const handleValidationErrors = (req, res, next) => {
 module.exports = {
   classificationRules,
   inventoryRules,
+  registerRules,
+  loginRules,
+  updateAccountRules,
+  updatePasswordRules,
   handleValidationErrors
 }

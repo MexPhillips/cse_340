@@ -17,6 +17,31 @@
 
 </section>
 
+<!-- Account Navigation Section -->
+<section id="account-nav" style="text-align: center; padding: 30px 20px; background-color: #e8f4f8; margin: 20px 0; border-radius: 8px;">
+  <h2 style="margin-top: 0; color: #333;">Account Management</h2>
+  <p style="margin: 10px 0 20px 0; color: #555; font-size: 14px;">Log in to manage your account or create a new one</p>
+  <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+    <a href="/account/login" style="display: inline-block; padding: 12px 25px; background-color: #0066cc; color: white; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 16px; transition: background-color 0.3s;">Log In to My Account</a>
+    <a href="/account/register" style="display: inline-block; padding: 12px 25px; background-color: #28a745; color: white; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 16px; transition: background-color 0.3s;">Create New Account</a>
+  </div>
+</section>
+
+<script>
+  // Hide Account Management section if user is already logged in
+  document.addEventListener('DOMContentLoaded', function() {
+    const authToken = localStorage.getItem('authToken')
+    const userData = localStorage.getItem('userData')
+    
+    if (authToken && userData) {
+      const accountSection = document.getElementById('account-nav')
+      if (accountSection) {
+        accountSection.style.display = 'none'
+      }
+    }
+  })
+</script>
+
 <section id="inventory-cta" style="text-align: center; padding: 40px 20px; background-color: #f5f5f5; margin: 30px 0; border-radius: 8px;">
   <h2>Browse Our Complete Inventory</h2>
   <p style="font-size: 16px; margin: 15px 0;">Explore our wide selection of vehicles and find your perfect match.</p>
