@@ -196,10 +196,12 @@ accountController.loginUser = async function (req, res, next) {
     })
 
   } catch (error) {
-    console.error("Login error: " + error)
+    console.error("Login error: " + error.message)
+    console.error("Full error: " + error)
     res.status(500).json({
       success: false,
-      message: "An error occurred during login. Please try again."
+      message: "An error occurred during login. Please try again.",
+      debugError: process.env.NODE_ENV === 'development' ? error.message : undefined
     })
   }
 }
