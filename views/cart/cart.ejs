@@ -44,10 +44,52 @@
         <p class="total">Total: <strong id="total">$0.00</strong></p>
         <div class="summary-actions">
           <a href="/inv" class="btn continue-shopping-btn" id="continueShoppingBtn">Continue Shopping</a>
-          <a href="/account/login" class="btn checkout-btn" id="checkoutBtn">Checkout</a>
+          <button class="btn checkout-btn" id="checkoutBtn" type="button">Checkout</button>
         </div>
       </div>
     </aside>
+  </div>
+</div>
+
+<!-- Order Confirmation Modal -->
+<div id="orderConfirmationModal" class="modal" style="display: none;">
+  <div class="modal-overlay">
+    <div class="confirmation-card">
+      <div class="confirmation-header">
+        <div class="success-icon">✓</div>
+        <h2>Order Received!</h2>
+      </div>
+      
+      <div class="confirmation-body">
+        <p class="confirmation-message">
+          Thank you for your order! We've received your purchase and are processing it right away.
+        </p>
+        
+        <div class="order-details">
+          <div class="detail-row">
+            <span class="detail-label">Order Total:</span>
+            <span class="detail-value" id="confirmTotal">$0.00</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Items:</span>
+            <span class="detail-value" id="confirmItemCount">0</span>
+          </div>
+        </div>
+
+        <div class="email-notification">
+          <div class="email-icon">📧</div>
+          <p>
+            A confirmation email will be sent to <strong id="confirmEmail">your email</strong> with details about your order and tracking information.
+          </p>
+          <p class="email-subtext">Please check your email for updates on your order progress.</p>
+        </div>
+      </div>
+
+      <div class="confirmation-actions">
+        <a href="/" class="btn btn-primary">Return to Shop</a>
+        <button class="btn btn-secondary" onclick="document.getElementById('orderConfirmationModal').style.display='none'">Close</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -89,13 +131,224 @@
   .summary-card p { margin: .5rem 0; font-size: 1rem; }
   .summary-card .total { font-size: 1.15rem; margin-top: .75rem; }
   .summary-actions { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
-  .checkout-btn { display: inline-block; width: 100%; padding: .75rem; background: var(--main-accent); color: #fff; text-align: center; border-radius: 6px; text-decoration: none; font-weight: 700; }
+  .checkout-btn { display: inline-block; width: 100%; padding: .75rem; background: var(--main-accent); color: #fff; text-align: center; border-radius: 6px; border: none; font-weight: 700; cursor: pointer; font-size: 1rem; }
+  .checkout-btn:hover { background: #005a7a; }
   .continue-shopping-btn { display: inline-block; width: 100%; padding: .75rem; background: #6c757d; color: #fff; text-align: center; border-radius: 6px; text-decoration: none; font-weight: 700; }
   .continue-shopping-btn:hover { background: #5a6268; }
+
+  /* Modal Styles */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .confirmation-card {
+    background: #fff;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    animation: slideUp 0.4s ease;
+  }
+
+  .confirmation-header {
+    background: linear-gradient(135deg, var(--main-accent) 0%, #005a7a 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .success-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    margin: 0 auto 1rem;
+    animation: scaleIn 0.5s ease 0.2s both;
+  }
+
+  @keyframes scaleIn {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+  }
+
+  .confirmation-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+  }
+
+  .confirmation-body {
+    padding: 2rem;
+  }
+
+  .confirmation-message {
+    font-size: 1.05rem;
+    color: #555;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .order-details {
+    background: #f9f9f9;
+    border-left: 4px solid var(--main-accent);
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+  }
+
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+  }
+
+  .detail-label {
+    color: #666;
+    font-weight: 600;
+  }
+
+  .detail-value {
+    color: var(--main-accent);
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .email-notification {
+    background: #e8f5e9;
+    border-left: 4px solid #4caf50;
+    padding: 1rem;
+    border-radius: 6px;
+    text-align: center;
+  }
+
+  .email-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .email-notification p {
+    margin: 0.5rem 0;
+    color: #333;
+    font-size: 0.95rem;
+  }
+
+  .email-notification strong {
+    color: var(--main-accent);
+  }
+
+  .email-subtext {
+    color: #666;
+    font-size: 0.85rem !important;
+  }
+
+  .confirmation-actions {
+    background: #f5f5f5;
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .confirmation-actions .btn {
+    flex: 1;
+    min-width: 120px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+
+  .confirmation-actions .btn-primary {
+    background: var(--main-accent);
+    color: white;
+  }
+
+  .confirmation-actions .btn-primary:hover {
+    background: #005a7a;
+  }
+
+  .confirmation-actions .btn-secondary {
+    background: #ddd;
+    color: #333;
+  }
+
+  .confirmation-actions .btn-secondary:hover {
+    background: #ccc;
+  }
 
   @media (max-width: 900px) {
     .cart-grid { grid-template-columns: 1fr; }
     .item-thumb img { width: 120px; height: 75px; }
+  }
+
+  @media (max-width: 600px) {
+    .confirmation-card {
+      max-width: 90vw;
+    }
+
+    .confirmation-header {
+      padding: 1.5rem;
+    }
+
+    .confirmation-header h2 {
+      font-size: 1.4rem;
+    }
+
+    .success-icon {
+      width: 60px;
+      height: 60px;
+      font-size: 2.5rem;
+    }
+
+    .confirmation-body {
+      padding: 1.5rem;
+    }
+
+    .confirmation-actions {
+      flex-direction: column;
+    }
+
+    .confirmation-actions .btn {
+      width: 100%;
+    }
   }
 </style>
 

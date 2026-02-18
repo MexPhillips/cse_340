@@ -78,7 +78,14 @@ function initAddToCartForms() {
 
 async function initCartPage() {
   const container = document.getElementById('cartItems')
+  const checkoutBtn = document.getElementById('checkoutBtn')
+  
   if (!container) return
+
+  // Attach checkout button listener
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', processCheckout)
+  }
 
   // If user is authenticated, render DB cart via API
   if (isAuthenticated()) {
@@ -214,3 +221,61 @@ async function removeDbItem(invId) {
     console.error('Failed to remove item', err)
   }
 }
+async function processCheckout() {
+  try {
+    // Check if user is authenticated
+    if (!isAuthenticated()) {
+      alert('Please log in to checkout')
+      window.location.href = '/account/login'
+      return
+    }
+
+    // Show loading state
+    const checkoutBtn = document.getElementById('checkoutBtn')
+    const originalText = checkoutBtn.textContent
+    checkoutBtn.disabled = true
+    checkoutBtn.textContent = 'Processing...'
+
+    // Call checkout API
+    const response = await authenticatedFetch('/checkout/process', {
+      method: 'POST',
+      body: JSON.stringify({})
+    })
+
+    if (response && response.success) {
+      // Show confirmation modal
+      const modal = document.getElementById('orderConfirmationModal')
+      const userData = JSON.parse(localStorage.getItem('userData'))
+      
+      document.getElementById('confirmTotal').textContent = '$' + Number(response.orderTotal).toFixed(2)
+      document.getElementById('confirmItemCount').textContent = response.itemCount + ' item(s)'
+      document.getElementById('confirmEmail').textContent = userData.email
+      
+      modal.style.display = 'block'
+
+      // Clear cart display after delay
+      setTimeout(() => {
+        initCartPage()
+        updateHeaderCartCount()
+      }, 1000)
+    } else {
+      alert(response.message || 'Checkout failed. Please try again.')
+      checkoutBtn.disabled = false
+      checkoutBtn.textContent = originalText
+    }
+  } catch (err) {
+    console.error('Checkout error:', err)
+    alert('An error occurred during checkout. Please try again.')
+    const checkoutBtn = document.getElementById('checkoutBtn')
+    checkoutBtn.disabled = false
+    checkoutBtn.textContent = 'Checkout'
+  }
+}
+
+// Attach checkout button listener
+document.addEventListener('DOMContentLoaded', () => {
+  const checkoutBtn = document.getElementById('checkoutBtn')
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', processCheckout)
+  }
+})
