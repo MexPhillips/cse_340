@@ -4,6 +4,7 @@
   </span>
   <div class="user-account-area" id="userAccountArea" style="display: none;">
     <span class="user-greeting">Welcome, <strong id="headerUsername">User</strong></span>
+    <a href="/admin/dashboard" class="user-link admin-link" id="adminLink" style="display: none;">Admin Panel</a>
     <a href="/account/details" class="user-link">My Account</a>
     <a href="/cart" class="user-link user-cart" id="headerCartLink">Cart <span id="headerCartCount" class="cart-count">0</span></a>
     <button class="user-logout" id="logoutBtn">Logout</button>
@@ -47,6 +48,17 @@
   .user-link:hover {
     background-color: #0066cc;
     color: white;
+  }
+
+  .user-link.admin-link {
+    background-color: #ff9800;
+    border-color: #ff9800;
+    color: white;
+  }
+
+  .user-link.admin-link:hover {
+    background-color: #f57c00;
+    border-color: #f57c00;
   }
 
   .user-logout {
@@ -136,6 +148,11 @@
         
         headerUsername.textContent = userData.username || 'User'
         userAccountArea.style.display = 'flex'
+        
+        // Show admin link if user is admin
+        if (userData.accountType === 'Admin') {
+          document.getElementById('adminLink').style.display = 'inline-block'
+        }
         
         // update cart count (if API available)
         try {

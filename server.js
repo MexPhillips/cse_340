@@ -15,6 +15,7 @@ const pages = require("./routes/pages")
 const invRoutes = require("./routes/inventoryRoute")
 const accountRoutes = require("./routes/accountRoute")
 const cartRoutes = require("./routes/cartRoute")
+const adminRoutes = require("./routes/adminRoute")
 const baseController = require("./controllers/baseController")
 const errorController = require("./controllers/errorController")
 
@@ -65,6 +66,7 @@ app.use(pages)
 app.use('/inv', invRoutes)
 app.use('/account', accountRoutes)
 app.use('/cart', cartRoutes)
+app.use('/admin', adminRoutes)
 app.use(static)
 
 /* ***********************

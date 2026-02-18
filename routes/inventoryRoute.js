@@ -31,7 +31,7 @@ router.get("/", utilities.handleErrors(invController.buildInventory));
 /* ****************************************
  * Route to build inventory management view
  **************************************** */
-router.get("/management", utilities.handleErrors(invController.buildManagement));
+router.get("/management", authMiddleware.verifyJWT, requireAdmin, utilities.handleErrors(invController.buildManagement));
 
 /* ****************************************
  * Route to build add classification view

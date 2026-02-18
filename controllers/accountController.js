@@ -129,7 +129,8 @@ accountController.registerUser = async function (req, res, next) {
       user: {
         id: newUser.account_id,
         username: newUser.account_firstname,
-        email: newUser.account_email
+        email: newUser.account_email,
+        accountType: newUser.account_type || 'Client'
       }
     })
 
@@ -213,7 +214,8 @@ accountController.loginUser = async function (req, res, next) {
       user: {
         id: user.account_id,
         username: user.account_firstname,
-        email: user.account_email
+        email: user.account_email,
+        accountType: user.account_type || 'Client'
       }
     })
 

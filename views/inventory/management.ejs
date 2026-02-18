@@ -16,11 +16,26 @@
 
 <div class="management-actions">
   <div class="action-buttons">
-    <a href="/inv/add-classification" class="btn btn-primary">+ Add New Classification</a>
-    <a href="/inv/add-inventory" class="btn btn-primary">+ Add New Vehicle</a>
+    <a href="/inv/add-classification" class="btn btn-primary" id="addClassificationBtn" style="display:none;">+ Add New Classification</a>
+    <a href="/inv/add-inventory" class="btn btn-primary" id="addInventoryBtn" style="display:none;">+ Add New Vehicle</a>
     <a href="/inv/" class="btn btn-secondary">View Full Inventory</a>
   </div>
 </div>
+<script>
+  // Only show admin buttons for Admin users
+  const userDataStr = localStorage.getItem('userData')
+  if (userDataStr) {
+    try {
+      const userData = JSON.parse(userDataStr)
+      if (userData.accountType === 'Admin') {
+        document.getElementById('addClassificationBtn').style.display = 'inline-block'
+        document.getElementById('addInventoryBtn').style.display = 'inline-block'
+      }
+    } catch (e) {
+      console.error('Error parsing user data:', e)
+    }
+  }
+</script>
 
 <h2>Current Inventory</h2>
 
@@ -62,6 +77,22 @@
   
   <p class="inventory-count">Total vehicles: <%= inventory.length %></p>
 <% } else { %>
-  <p class="notice">No inventory items found. <a href="/inv/add-inventory">Add your first vehicle</a></p>
+  <p class="notice">No inventory items found. <a href="/inv/add-inventory" id="addFirstVehicleLink" style="display:none;">Add your first vehicle</a></p>
 <% } %>
+
+<script>
+  // Show add first vehicle link only for admins
+  const userDataStr = localStorage.getItem('userData')
+  if (userDataStr) {
+    try {
+      const userData = JSON.parse(userDataStr)
+      if (userData.accountType === 'Admin') {
+        const link = document.getElementById('addFirstVehicleLink')
+        if (link) link.style.display = 'inline'
+      }
+    } catch (e) {
+      console.error('Error parsing user data:', e)
+    }
+  }
+</script>
 
