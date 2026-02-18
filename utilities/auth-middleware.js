@@ -53,7 +53,7 @@ authMiddleware.verifyJWT = (req, res, next) => {
  *  Validates JWT_SECRET before attempting to sign
  *  Returns: JWT token string
  * ************************** */
-authMiddleware.generateToken = (userId, email) => {
+authMiddleware.generateToken = (userId, email, accountType = 'Client') => {
   try {
     // Validate that JWT_SECRET is configured
     const secret = process.env.JWT_SECRET
@@ -66,7 +66,8 @@ authMiddleware.generateToken = (userId, email) => {
     const token = jwt.sign(
       {
         accountId: userId,
-        email: email
+        email: email,
+        accountType: accountType
       },
       secret,
       { expiresIn: "24h" } // Token valid for 24 hours
@@ -75,6 +76,41 @@ authMiddleware.generateToken = (userId, email) => {
   } catch (error) {
     console.error("Error generating JWT token: " + error.message)
     throw error
+  }
+}
+
+/* ***************************
+ *  Check if User is Admin Middleware
+ *  Verifies that authenticated user has 'Admin' account type
+ *  Must be used after authentication middleware
+ *  If not admin: returns 403 Forbidden response
+ * ************************** */
+authMiddleware.checkAdmin = (req, res, next) => {
+  try {
+    // Check if user is authenticated and has accountType
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required'
+      })
+    }
+
+    // Check if user is an Admin
+    if (req.user.accountType !== 'Admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Admin access required. You do not have permission to perform this action.'
+      })
+    }
+
+    // User is admin, continue to next middleware/route handler
+    next()
+  } catch (error) {
+    console.error("Admin check error: " + error)
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred during authorization check."
+    })
   }
 }
 

@@ -110,7 +110,8 @@ accountController.registerUser = async function (req, res, next) {
     // Generate JWT token for the new user
     let token
     try {
-      token = authMiddleware.generateToken(newUser.account_id, newUser.account_email)
+      const accountType = newUser.account_type || 'Client'
+      token = authMiddleware.generateToken(newUser.account_id, newUser.account_email, accountType)
     } catch (tokenError) {
       console.error("JWT generation failed during registration: " + tokenError.message)
       return res.status(500).json({
@@ -193,7 +194,8 @@ accountController.loginUser = async function (req, res, next) {
     // Credentials are valid, generate JWT token
     let token
     try {
-      token = authMiddleware.generateToken(user.account_id, user.account_email)
+      const accountType = user.account_type || 'Client'
+      token = authMiddleware.generateToken(user.account_id, user.account_email, accountType)
     } catch (tokenError) {
       console.error("JWT generation failed during login: " + tokenError.message)
       return res.status(500).json({

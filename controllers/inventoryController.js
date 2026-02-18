@@ -34,6 +34,7 @@ invCont.getVehicleDetail = async function (req, res, next) {
     nav,
     message: null,
     htmlData,
+    vehicle,                // include the full vehicle data for cart form
   })
 }
 

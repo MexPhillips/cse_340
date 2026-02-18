@@ -5,6 +5,7 @@
   <div class="user-account-area" id="userAccountArea" style="display: none;">
     <span class="user-greeting">Welcome, <strong id="headerUsername">User</strong></span>
     <a href="/account/details" class="user-link">My Account</a>
+    <a href="/cart" class="user-link user-cart" id="headerCartLink">Cart <span id="headerCartCount" class="cart-count">0</span></a>
     <button class="user-logout" id="logoutBtn">Logout</button>
   </div>
 </header>
@@ -123,7 +124,7 @@
 
 <script>
   // Check if user is logged in and display username in header
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', async function() {
     try {
       const userDataStr = localStorage.getItem('userData')
       const authToken = localStorage.getItem('authToken')
@@ -136,6 +137,20 @@
         headerUsername.textContent = userData.username || 'User'
         userAccountArea.style.display = 'flex'
         
+        // update cart count (if API available)
+        try {
+          if (typeof authenticatedFetch === 'function') {
+            const countResp = await authenticatedFetch('/cart/count')
+            if (countResp && typeof countResp.count !== 'undefined') {
+              const el = document.getElementById('headerCartCount')
+              if (el) el.textContent = countResp.count
+            }
+          }
+        } catch (err) {
+          // silent fail - header still shows
+          console.debug('Cart count not available:', err)
+        }
+
         // Add logout functionality
         document.getElementById('logoutBtn').addEventListener('click', function() {
           localStorage.removeItem('authToken')

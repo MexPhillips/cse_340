@@ -122,9 +122,23 @@ Util.buildSingleVehicleDisplay = async (vehicle) => {
   svd += "<li><h4>Color:</h4> " + vehicle.inv_color + "</li>"
   svd += "<li><h4>Miles:</h4> " + new Intl.NumberFormat("en-US").format(vehicle.inv_miles) + "</li>"
   svd += "</ul>"
+
+  // Add-to-cart form placed inside vehicleDetail for better visibility
+  svd += '<form class="add-to-cart-form" action="/cart/add-session" method="POST" data-inv-id="' + vehicle.inv_id + '">' 
+  svd += '<input type="hidden" name="invId" value="' + vehicle.inv_id + '" />'
+  svd += '<input type="hidden" name="name" value="' + vehicle.inv_make + ' ' + vehicle.inv_model + '" />'
+  svd += '<input type="hidden" name="price" value="' + vehicle.inv_price + '" />'
+  svd += '<input type="hidden" name="image" value="' + imageUrl + '" />'
+  svd += '<div class="qty-controls">'
+  svd += '<button type="button" class="qty-btn" data-action="decrease">-</button>'
+  svd += '<input class="qty-input" type="number" name="quantity" value="1" min="1" max="99" />'
+  svd += '<button type="button" class="qty-btn" data-action="increase">+</button>'
+  svd += '</div>'
+  svd += '<button class="btn btn-primary add-cart-btn" type="submit">Add to Cart</button>'
+  svd += '</form>'
+
   svd += "</section>"
   svd += "</div>"
-  svd += "</section>"
   return svd
 }
 

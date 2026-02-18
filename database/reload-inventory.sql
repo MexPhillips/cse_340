@@ -1,5 +1,7 @@
--- Data for table `inventory`
+-- Clear old inventory data and reload with correct image paths
+DELETE FROM public.inventory WHERE true;
 
+-- Re-insert inventory with correct /images/vehicles/ paths
 INSERT INTO public.inventory (
     inv_make,
     inv_model,

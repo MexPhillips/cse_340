@@ -398,6 +398,16 @@ label+div {
   margin-left: .5rem;
 }
 
+/* Cart styles */
+.cart-page { padding: 1rem 0; }
+.cart-grid { gap: 1.5rem; }
+.cart-item .item-name { color: var(--primary-text); }
+.qty-controls .qty-btn { background: transparent; border: 1px solid #ddd; padding: 0 .5rem; }
+.btn.checkout-btn { background: var(--main-accent); color: #fff; border: none; padding: .75rem; border-radius: 6px; }
+.remove-btn { background: transparent; border: 1px solid #f44336; color: #f44336; }
+.cart-count { background: #fff; color: var(--main-accent); padding: .15rem .45rem; border-radius: 999px; margin-left: .4rem; font-weight: 700; }
+
+
 input[name$='Image'],
 input[name$='Thumbnail'] {
   width: 40ch;
@@ -696,6 +706,12 @@ input[name$='Thumbnail'] {
     object-fit: contain;
   }
 }
+
+/* Add-to-cart form styling (detail page) */
+.add-to-cart-form { display: flex; gap: 1rem; align-items: center; margin-top: 1rem; flex-wrap: wrap; }
+.add-to-cart-form .qty-input { width: 80px; }
+.add-cart-btn { margin-left: .25rem; }
+.add-to-cart-form .btn-primary { padding: .55rem 1rem; }
 
 /* ===========================
  * Inventory Page Styles

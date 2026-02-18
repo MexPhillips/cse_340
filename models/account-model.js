@@ -33,7 +33,7 @@ accountModel.registerUser = async function(username, email, passwordHash) {
 accountModel.getUserByEmail = async function(email) {
   try {
     const result = await pool.query(
-      `SELECT account_id, account_firstname, account_email, account_password
+      `SELECT account_id, account_firstname, account_email, account_password, account_type
        FROM public.account
        WHERE account_email = $1`,
       [email]
@@ -53,7 +53,7 @@ accountModel.getUserByEmail = async function(email) {
 accountModel.getUserById = async function(accountId) {
   try {
     const result = await pool.query(
-      `SELECT account_id, account_firstname, account_lastname, account_email
+      `SELECT account_id, account_firstname, account_lastname, account_email, account_type
        FROM public.account
        WHERE account_id = $1`,
       [accountId]

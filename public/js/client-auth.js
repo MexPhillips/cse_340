@@ -61,10 +61,18 @@ async function authenticatedFetch(url, options = {}) {
       return
     }
 
-    return await response.json()
+    const contentType = response.headers.get('content-type') || ''
+    if (contentType.includes('application/json')) {
+      const data = await response.json()
+      return data
+    }
+
+    // Non-JSON response (server error pages etc.) — return structured object
+    const text = await response.text()
+    return { success: response.ok, message: text || response.statusText }
   } catch (error) {
     console.error('Authenticated fetch error:', error)
-    throw error
+    return { success: false, message: error.message || 'Network error' }
   }
 }
 
